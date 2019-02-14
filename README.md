@@ -26,7 +26,7 @@ To build from source, you will need Go installed.
 ```bash
 $ export GO111MODULE=on 
 $ go get ./...
-$ go run goca/goca.go
+$ go run goca/goca.go -h
 ```
 
 ***
