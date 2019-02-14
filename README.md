@@ -30,6 +30,13 @@ $ go get ./...
 $ go run goca/goca.go -h
 ```
 
+To run Goca from Docker:
+
+```bash
+$ docker build -t gocaio/goca /path/to/goca
+$ docker run gocaio/goca -h
+```
+
 ***
 
 ## Contributing Guide
