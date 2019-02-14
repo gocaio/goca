@@ -17,14 +17,14 @@
 package plugins
 
 import (
-	_ "github.com/gocaio/Goca/plugins/doc"
-	_ "github.com/gocaio/Goca/plugins/dsstore"
-	_ "github.com/gocaio/Goca/plugins/image"
-	_ "github.com/gocaio/Goca/plugins/mp3"
-	_ "github.com/gocaio/Goca/plugins/odp"
-	_ "github.com/gocaio/Goca/plugins/ods"
-	_ "github.com/gocaio/Goca/plugins/odt"
-	_ "github.com/gocaio/Goca/plugins/pdf"
-	_ "github.com/gocaio/Goca/plugins/ppt"
-	_ "github.com/gocaio/Goca/plugins/xls"
+	_ "github.com/gocaio/goca/plugins/doc"
+	_ "github.com/gocaio/goca/plugins/dsstore"
+	_ "github.com/gocaio/goca/plugins/image"
+	_ "github.com/gocaio/goca/plugins/mp3"
+	_ "github.com/gocaio/goca/plugins/odp"
+	_ "github.com/gocaio/goca/plugins/ods"
+	_ "github.com/gocaio/goca/plugins/odt"
+	_ "github.com/gocaio/goca/plugins/pdf"
+	_ "github.com/gocaio/goca/plugins/ppt"
+	_ "github.com/gocaio/goca/plugins/xls"
 )

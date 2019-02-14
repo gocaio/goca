@@ -20,8 +20,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gocaio/Goca"
-	"github.com/gocaio/Goca/testData"
+	"github.com/gocaio/goca"
+	"github.com/gocaio/goca/testData"
 )
 
 // Test server URL.

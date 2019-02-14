@@ -24,7 +24,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/gocaio/Goca"
+	"github.com/gocaio/goca"
 )
 
 type Assets struct {

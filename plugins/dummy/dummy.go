@@ -19,7 +19,7 @@ package dummy
 import (
 	"fmt"
 
-	goca "github.com/gocaio/Goca"
+	goca "github.com/gocaio/goca"
 )
 
 // plugName is the plugin name, this constant variable is usefull

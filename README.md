@@ -21,7 +21,7 @@ Then downloads the documents and extracts the EXIF information from graphic file
 
 All the documentation, questions and instructions under the Wiki:
 
-+ [Wiki](https://github.com/gocaio/Goca/wiki/0_Index)
++ [Wiki](https://github.com/gocaio/goca/wiki/0_Index)
 
 ***
 

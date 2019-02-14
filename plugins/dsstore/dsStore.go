@@ -24,7 +24,7 @@ import (
 	"strings"
 
 	"github.com/gehaxelt/ds_store"
-	"github.com/gocaio/Goca"
+	"github.com/gocaio/goca"
 	log "github.com/sirupsen/logrus"
 )
 

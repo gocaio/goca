@@ -22,7 +22,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/gocaio/Goca/dorker"
+	"github.com/gocaio/goca/dorker"
 	log "github.com/sirupsen/logrus"
 )
 

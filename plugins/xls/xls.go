@@ -22,7 +22,7 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/gocaio/Goca"
+	"github.com/gocaio/goca"
 	"github.com/kevinborras/metagoffice"
 	log "github.com/sirupsen/logrus"
 )

@@ -20,7 +20,7 @@ import (
 	"bytes"
 	"strings"
 
-	"github.com/gocaio/Goca"
+	"github.com/gocaio/goca"
 	log "github.com/sirupsen/logrus"
 	"trimmer.io/go-xmp/xmp"
 )

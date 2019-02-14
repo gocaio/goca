@@ -20,7 +20,7 @@ import (
 	"bytes"
 
 	"github.com/dhowden/tag"
-	"github.com/gocaio/Goca"
+	"github.com/gocaio/goca"
 	log "github.com/sirupsen/logrus"
 )
 

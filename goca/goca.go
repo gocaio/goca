@@ -22,8 +22,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/gocaio/Goca"
-	_ "github.com/gocaio/Goca/plugins"
+	"github.com/gocaio/goca"
+	_ "github.com/gocaio/goca/plugins"
 	log "github.com/sirupsen/logrus"
 )
 

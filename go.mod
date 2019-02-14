@@ -1,4 +1,4 @@
-module github.com/gocaio/Goca
+module github.com/gocaio/goca
 
 require (
 	github.com/PuerkitoBio/goquery v1.5.0 // indirect
