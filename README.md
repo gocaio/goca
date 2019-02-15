@@ -1,6 +1,7 @@
 ![](img/Goca_banner.png)
 
 [![](https://img.shields.io/badge/Chat-Telegram-blue.svg)](https://t.me/GocaIO) 
+[![Build Status](https://travis-ci.org/Gocaio/goca.svg?branch=dev)](https://travis-ci.org/Gocaio/goca)
 
 **Goca** is a [FOCA](https://github.com/ElevenPaths/FOCA) fork written in Go, which is a tool used mainly to find metadata and hidden information in the documents its scans. These documents may be on web pages, and can be downloaded and analyzed with **Goca**.
 
