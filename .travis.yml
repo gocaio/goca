@@ -9,5 +9,10 @@ go:
 notifications:
   email: false
 
+# whitelist
+branches:
+  only:
+    - dev
+
 script:
   - go test -v -race -cover -count 1 ./...
