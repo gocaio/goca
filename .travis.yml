@@ -15,4 +15,4 @@ branches:
     - dev
 
 script:
-  - go test -v -race -cover -count 1 ./...
+  - make test
