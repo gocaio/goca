@@ -1,0 +1,13 @@
+language: go
+
+env:
+  - GO111MODULE=on
+
+go:
+  - 1.11
+
+notifications:
+  email: false
+
+script:
+  - go test -v -race -cover -count 1 ./...
