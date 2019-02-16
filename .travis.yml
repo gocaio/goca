@@ -14,13 +14,21 @@ matrix:
 before_deploy:
   - ./build.sh
 
+stages:
+  - dep
+  - test
+  - release
+
 jobs:
   include:
-    - stage: Getting dependencies
+    - stage: dep
+      name: Getting dependencies
       script: go get -t -v ./...
-    - stage: Running tests
+    - stage: test
+      name: Running tests
       script: go test -v -race -count 1 -coverprofile=coverage.txt -covermode=atomic ./...
-    - stage: GitHub Release
+    - stage: release
+      name: GitHub Release
       script: echo "Deploying to GitHub releases ..."
       deploy:
         provider: releases
