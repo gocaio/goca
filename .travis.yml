@@ -11,20 +11,21 @@ matrix:
   allow_failures:
     - go: master
 
-script:
-  - go get -t -v ./...
-  - go test -v -race -count 1 -coverprofile=coverage.txt -covermode=atomic ./...
-
 before_deploy:
   - ./build.sh
 
-deploy:
-  provider: releases
-  api_key:
-    secure: ${GH_KEY}
-  file_glob: true
-  file: build/*
-  overwrite: true
-  skip_cleanup: true
-  on:
-    tags: true
+jobs:
+  include:
+    - stage: Getting dependencies
+      script: go get -t -v ./...
+    - stage: Running tests
+      script: go test -v -race -count 1 -coverprofile=coverage.txt -covermode=atomic ./...
+    - stage: GitHub Release
+      script: echo "Deploying to GitHub releases ..."
+      deploy:
+        provider: releases
+        api_key: $GH_KEY
+        skip_cleanup: true
+        overwrite: true
+        on:
+          tags: true
