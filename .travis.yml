@@ -1,18 +1,30 @@
-language: go
-
 env:
   - GO111MODULE=on
 
+language: go
 go:
-  - 1.11
+  - "1.10.x"
+  - "1.11.x"
+  - master
 
-notifications:
-  email: false
-
-# whitelist
-branches:
-  only:
-    - dev
+matrix:
+  allow_failures:
+    - go: master
 
 script:
-  - make test
+  - go get -t -v ./...
+  - go test -v -race -count 1 -coverprofile=coverage.txt -covermode=atomic ./...
+
+before_deploy:
+  - ./build.sh
+
+deploy:
+  provider: releases
+  api_key:
+    secure: ${GH_KEY}
+  file_glob: true
+  file: build/*
+  overwrite: true
+  skip_cleanup: true
+  on:
+    tags: true
