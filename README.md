@@ -1,12 +1,12 @@
 ![](img/Goca_banner.png)
 
 [![](https://img.shields.io/badge/Chat-Telegram-blue.svg?style=plastic&logo=telegram)](https://t.me/GocaIO) 
-[![Build Status](https://travis-ci.org/Gocaio/goca.svg?branch=dev)](https://travis-ci.org/Gocaio/goca)
+[![Build Status](https://travis-ci.org/gocaio/goca.svg?branch=dev)](https://travis-ci.org/gocaio/goca)
 [![GitHub Issues](https://img.shields.io/github/issues/gocaio/goca.svg)](https://github.com/gocaio/goca/issues)
-[![GitHub tag](https://img.shields.io/github/tag/Gocaio/goca.svg)](https://github.com/Gocaio/goca/tags)
+[![GitHub tag](https://img.shields.io/github/tag/gocaio/goca.svg)](https://github.com/gocaio/goca/tags)
 [![Go Version](https://img.shields.io/badge/go-1.11-blue.svg?logo=go)](https://golang.org/dl/)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
-[![Contribute Yes](https://img.shields.io/badge/contribute-yes-brightgreen.svg)](https://github.com/Gocaio/goca/blob/master/CONTRIBUTING.md)
+[![Contribute Yes](https://img.shields.io/badge/contribute-yes-brightgreen.svg)](https://github.com/gocaio/goca/blob/master/CONTRIBUTING.md)
 
 **Goca** is a [FOCA](https://github.com/ElevenPaths/FOCA) fork written in Go, which is a tool used mainly to find metadata and hidden information in the documents its scans. These documents may be on web pages, and can be downloaded and analyzed with **Goca**.
 
@@ -26,7 +26,7 @@ Then downloads the documents and extracts the EXIF information from graphic file
 
 ## USAGE
 
-Download built packages from [**Releases**](https://github.com/Gocaio/goca/releases)
+Download built packages from [**Releases**](https://github.com/gocaio/goca/releases)
 
 To build from source, you will need Go installed.
 
