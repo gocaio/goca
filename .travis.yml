@@ -1,0 +1,29 @@
+env:
+  - GO111MODULE=on
+
+language: go
+go:
+  - "1.10.x"
+  - "1.11.x"
+  - master
+
+matrix:
+  allow_failures:
+    - go: master
+
+script:
+  - go get -t -v ./...
+  - go test -v -race -coverprofile=coverage.txt -covermode=atomic ./...
+
+before_deploy:
+  - ./build.sh
+
+deploy:
+  provider: releases
+  api_key: $GH_KEY
+  file_glob: true
+  file: build/*
+  skip_cleanup: true
+  overwrite: true
+  on:
+    tags: true
