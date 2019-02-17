@@ -13,10 +13,12 @@ Please note we have a code of conduct, please follow it in all your interactions
 1. Add module under `modules` folder.
 
 1. When commiting, always reference the issue you are working with. Eg.
+  
   - `git commit -m "#9 - Adding module images"`
   - `git commit -m "#9 - Adding images to testData and getting GPS Coordinates"`
 
 1. When done, open a Pull Request to **Goca** `dev` branch. An **admin** will review it.
+  
   - If something is wrong or needs changes, the admin will comment on the issue/Pull Request.
   - When everything is OK, the **admin** will accept the Pull Request.
 
