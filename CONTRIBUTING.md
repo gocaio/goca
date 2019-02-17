@@ -8,21 +8,21 @@ Please note we have a code of conduct, please follow it in all your interactions
 
 1. Open an issue with the module or feature you want to implement. An **admin** will give you feedback or suggestions as soon as possible.
 
-2. Clone the repository and be sure that you have all dependencies in your `$GOPATH`.
+1. Clone the repository and be sure that you have all dependencies in your `$GOPATH`.
 
-3. Add module under `modules` folder.
+1. Add module under `modules` folder.
 
-4. When commiting, always reference the issue you are working with. Eg.
+1. When commiting, always reference the issue you are working with. Eg.
   - `git commit -m "#9 - Adding module images"`
   - `git commit -m "#9 - Adding images to testData and getting GPS Coordinates"`
 
-5. When done, open a Pull Request to **Goca** `dev` branch. An **admin** will review it.
+1. When done, open a Pull Request to **Goca** `dev` branch. An **admin** will review it.
   - If something is wrong or needs changes, the admin will comment on the issue/Pull Request.
   - When everything is OK, the **admin** will accept the Pull Request.
 
-5. Increase the version numbers in any examples files and the README.md to the new version that this
+1. Increase the version numbers in any examples files and the README.md to the new version that this
    Pull Request would represent. The versioning scheme we use is [SemVer](http://semver.org/).
-4. You may merge the Pull Request in once you have the sign-off of two other developers, or if you
+1. You may merge the Pull Request in once you have the sign-off of two other developers, or if you
    do not have permission to do that, you may request the second reviewer to merge it for you.
 
 ## Code of Conduct
