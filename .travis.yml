@@ -31,4 +31,8 @@ deploy:
     tags: true
 
 notifications:
-  webhooks: https://${TGWH_USER}:${TGWH_PASS}@tgwh.goca.io/travisci
+  webhooks: 
+    urls:
+      - https://${TGWH_USER}:${TGWH_PASS}@tgwh.goca.io/travisci
+  on_success: always
+  on_failure: always

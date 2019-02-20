@@ -14,7 +14,7 @@ export REPO=gocaio/goca
 export TAG=$TRAVIS_TAG
 export COMMIT=${TRAVIS_COMMIT::8}
 
-docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+docker login -e $DOCKER_EMAIL -u gocaio -p $DOCKER_PASS
 docker build -f Dockerfile -t $REPO:$COMMIT .
 docker tag $REPO:$COMMIT $REPO:latest
 docker tag $REPO:$COMMIT $REPO:$TAG
