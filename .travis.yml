@@ -14,6 +14,9 @@ script:
   - go get -t -v ./...
   - go test -v -race -coverprofile=coverage.txt -covermode=atomic ./...
 
+after_success:
+  - ./scripts/deploy_to_docker.sh
+
 before_deploy:
   - ./build.sh
 
@@ -26,3 +29,6 @@ deploy:
   overwrite: true
   on:
     tags: true
+
+notifications:
+  webhooks: https://${TGWH_USER}:${TGWH_PASS}@tgwh.goca.io/travisci
