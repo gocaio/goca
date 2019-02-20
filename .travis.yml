@@ -31,9 +31,8 @@ deploy:
     tags: true
 
 notifications:
-  email: false
   webhooks: 
     urls:
-      - https://tgwh.goca.io/travisci
-  on_success: always
-  on_failure: always
+      secure: nL0TZaqM5l4iyobPkVkeETzQWM0m627UyindG9CbFih3mZfcw951TxUu7byiBtvqxtVcpCI/7F3ivwHWK8jfOcNOPEIoggxoenZUerQCk+X3X7V6NTI9OMsUcASxu0//QoNZ4R/+FAfj2Q1IDohMXXcqIHW5AU3QygzHQT6ynV3hZCFGTrS4+9xhT3W1Yivls7sUYvxHB/MlvganXes5Ofjxkk6G5kFb4qqb43jm+YyQntMkwcRSIsCbEejltfdwv/nQItBMdfaPJL1RYX1/EFk3LQ4B2YHSwLRP9rIEDv5HL2bdh9h2Z79MM9l4w3zql1SFoHniN7GurqTt/4ugLbOavMTUcoreuOBd5MSxaT3Fvvo0AWKdW/LBXmYEqeSnMwLVfyob2PtCUJX7oxIFL9abJ6iLCqsS+hrMvtg1nE7c0uOGkOosUoteXgnvb1DynW5CC7kDX9QsBj7kVkQhmpOXjsL1BWiUTQSZ7VstTxXruPErjw39h/UB/S5oeNetEvsPXkxSOYfG6EYfhzUSicX0lsvqn+Sipqkj/rRw33TfXHAXRalIU0KdBe74rGfnyW2MbraYDcI4ecSaaBKr35xVGAq8exXgf4hqKvXl4kJ8tffKniNtGGfuGRfcLh1IU5RmbcBtChZafVXGHjp+GW7+umO7iJDYMTkGkF3WbQw=
+    on_success: always
+    on_failure: always
