@@ -4,15 +4,21 @@ env:
 language: go
 go:
   - "1.11.x"
-  - master
+  - "1.12.x"
+  - tip
 
 matrix:
   allow_failures:
-    - go: master
+    - go: tip
+
+before_script:
+	- test $TRAVIS_BRANCH = "master" && curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/master/install.sh | sudo bash
 
 script:
   - go get -t -v ./...
   - go test -v -race -coverprofile=coverage.txt -covermode=atomic ./...
+  - test $TRAVIS_BRANCH = "master" && fossa init
+  - test $TRAVIS_BRANCH = "master" && fossa analyze
 
 after_success:
   - ./scripts/deploy_to_docker.sh
