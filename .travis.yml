@@ -17,8 +17,8 @@ before_script:
 script:
   - go get -t -v ./...
   - go test -v -race -coverprofile=coverage.txt -covermode=atomic ./...
-  - test $TRAVIS_BRANCH = "master" && fossa init
-  - test $TRAVIS_BRANCH = "master" && fossa analyze
+  - if [ "$TRAVIS_BRANCH" = "master" ]; then fossa init; fi
+  - if [ "$TRAVIS_BRANCH" = "master" ]; then fossa analyze; fi
 
 after_success:
   - ./scripts/deploy_to_docker.sh
