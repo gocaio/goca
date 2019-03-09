@@ -7,6 +7,7 @@
 [![Go Version](https://img.shields.io/badge/go-1.11-blue.svg?logo=go)](https://golang.org/dl/)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 [![Contribute Yes](https://img.shields.io/badge/contribute-yes-brightgreen.svg)](https://github.com/gocaio/goca/blob/master/CONTRIBUTING.md)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fgocaio%2Fgoca.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fgocaio%2Fgoca?ref=badge_shield)
 
 **Goca** is a [FOCA](https://github.com/ElevenPaths/FOCA) fork written in Go, which is a tool used mainly to find metadata and hidden information in the documents its scans. These documents may be on web pages, and can be downloaded and analyzed with **Goca**.
 
@@ -56,3 +57,7 @@ Please reade the Contributing guide:
 ## Documentation
 
 Refer to the [Official Doc](https://github.com/gocaio/Doc).
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fgocaio%2Fgoca.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fgocaio%2Fgoca?ref=badge_large)
