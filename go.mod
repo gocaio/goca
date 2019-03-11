@@ -3,11 +3,8 @@ module github.com/gocaio/goca
 require (
 	github.com/32bitkid/bitreader v0.0.0-20180710164922-66b707e0f706 // indirect
 	github.com/PuerkitoBio/goquery v1.5.0 // indirect
-<<<<<<< HEAD
 	github.com/RangelReale/swfinfo v0.0.0-20180612120335-24bc2c8ef835
 	github.com/TylerBrock/colorjson v0.0.0-20180527164720-95ec53f28296
-=======
->>>>>>> a9046388daacdbff9cd393275346baa625f69291
 	github.com/antchfx/htmlquery v0.0.0-20181228060131-db5c1236cbb4 // indirect
 	github.com/antchfx/xmlquery v0.0.0-20181223105952-355641961c92 // indirect
 	github.com/antchfx/xpath v0.0.0-20181208024549-4bbdf6db12aa // indirect
