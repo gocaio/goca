@@ -9,6 +9,7 @@ import (
 	"os"
 	"path"
 	"strings"
+	"time"
 )
 
 var (
@@ -51,10 +52,19 @@ func handler(w http.ResponseWriter, req *http.Request) {
 			return
 		}
 
-		plugs := Plugins{}
+		plugs := []Asset{}
 		for _, file := range files {
 			if file.IsDir() {
-				plugs.Plugins = append(plugs.Plugins, file.Name())
+				plug := Asset{
+					Name:      file.Name(),
+					Size:      file.Size(),
+					ModTime:   file.ModTime(),
+					Mode:      file.Mode(),
+					IsDir:     file.IsDir(),
+					URL:       "./" + file.Name() + "/",
+					IsSymlink: false,
+				}
+				plugs = append(plugs, plug)
 			}
 		}
 		data, err := json.Marshal(plugs)
@@ -73,10 +83,20 @@ func handler(w http.ResponseWriter, req *http.Request) {
 			return
 		}
 
-		assets := Assets{}
+		// assets := Assets{}
+		assets := []Asset{}
 		for _, folder := range folders {
 			if !folder.IsDir() {
-				assets.Resources = append(assets.Resources, folder.Name())
+				asset := Asset{
+					Name:      folder.Name(),
+					Size:      folder.Size(),
+					ModTime:   folder.ModTime(),
+					Mode:      folder.Mode(),
+					IsDir:     folder.IsDir(),
+					URL:       "./" + folder.Name() + "/",
+					IsSymlink: false,
+				}
+				assets = append(assets, asset)
 			}
 		}
 		data, err := json.Marshal(assets)
@@ -119,10 +139,12 @@ func extractParts(req *http.Request) (string, string) {
 	return parts[0], parts[1]
 }
 
-type Plugins struct {
-	Plugins []string `json:"plugins"`
-}
-
-type Assets struct {
-	Resources []string `json:"resources"`
+type Asset struct {
+	Name      string      `json:"Name"`
+	Size      int64       `json:"Size"`
+	URL       string      `json:"URL"`
+	ModTime   time.Time   `json:"ModTime"`
+	Mode      os.FileMode `json:"Mode"`
+	IsDir     bool        `json:"IsDir"`
+	IsSymlink bool        `json:"IsSymlink"`
 }
