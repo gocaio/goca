@@ -14,7 +14,7 @@
 	limitations under the License.
 */
 
-package testData
+package gocatesting
 
 import (
 	"encoding/json"

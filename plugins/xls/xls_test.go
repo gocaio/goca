@@ -21,11 +21,10 @@ import (
 	"testing"
 
 	"github.com/gocaio/goca"
-	"github.com/gocaio/goca/testData"
+	"github.com/gocaio/goca/gocaTesting"
 )
 
 // Test server URL.
-// For testing locally you need Python 3.5.X and Flask
 var testserver = "https://test.goca.io"
 
 // T is a global reference for the test. This allows us to use *testing.T
@@ -42,7 +41,7 @@ func TestReadXLS(t *testing.T) {
 	// Call the plugin entrypoint
 	setup(ctrl)
 
-	testData.GetAssets(t, ctrl, testserver, plugName)
+	gocatesting.GetAssets(t, ctrl, testserver, plugName)
 }
 
 func processOutput(module, url string, out *goca.Output) {
