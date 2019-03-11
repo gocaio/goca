@@ -137,6 +137,9 @@ var DorkLib = dorkLib{
 	"application/vnd.oasis.opendocument.presentation": []Dork{
 		Dork{"google", "filetype:odp"},
 	},
+	"application/x-shockwave-flash": []Dork{
+		Dork{"google", "filetype:swf"},
+	},
 }
 
 func (dl dorkLib) GetByType(typ string) []Dork {

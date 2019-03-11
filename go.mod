@@ -1,7 +1,9 @@
 module github.com/gocaio/goca
 
 require (
+	github.com/32bitkid/bitreader v0.0.0-20180710164922-66b707e0f706 // indirect
 	github.com/PuerkitoBio/goquery v1.5.0 // indirect
+	github.com/RangelReale/swfinfo v0.0.0-20180612120335-24bc2c8ef835
 	github.com/TylerBrock/colorjson v0.0.0-20180527164720-95ec53f28296
 	github.com/antchfx/htmlquery v0.0.0-20181228060131-db5c1236cbb4 // indirect
 	github.com/antchfx/xmlquery v0.0.0-20181223105952-355641961c92 // indirect
@@ -23,6 +25,7 @@ require (
 	github.com/nwidger/jsoncolor v0.0.0-20170215171346-75a6de4340e5
 	github.com/saintfish/chardet v0.0.0-20120816061221-3af4cd4741ca // indirect
 	github.com/sirupsen/logrus v1.3.0
+	github.com/smira/lzma v0.0.0-20160124201817-7f0af6269940 // indirect
 	github.com/temoto/robotstxt v0.0.0-20180810133444-97ee4a9ee6ea // indirect
 	golang.org/x/net v0.0.0-20190110200230-915654e7eabc // indirect
 	golang.org/x/sync v0.0.0-20181221193216-37e7f081c4d4 // indirect

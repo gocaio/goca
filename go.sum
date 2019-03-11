@@ -1,5 +1,9 @@
+github.com/32bitkid/bitreader v0.0.0-20180710164922-66b707e0f706 h1:kaeJjKUVtEiF0+EjX9q0XPyhX6VmFJRagHU07Noxjzo=
+github.com/32bitkid/bitreader v0.0.0-20180710164922-66b707e0f706/go.mod h1:/f3zY7lVofN23ZcM80fEiNJXjOZrPxRrsa6mLLleEKg=
 github.com/PuerkitoBio/goquery v1.5.0 h1:uGvmFXOA73IKluu/F84Xd1tt/z07GYm8X49XKHP7EJk=
 github.com/PuerkitoBio/goquery v1.5.0/go.mod h1:qD2PgZ9lccMbQlc7eEOjaeRlFQON7xY8kdmcsrnKqMg=
+github.com/RangelReale/swfinfo v0.0.0-20180612120335-24bc2c8ef835 h1:vhlQZK53Y1p5NmjO9FYqY9laYXZgDx5QmS8zV7AuXgY=
+github.com/RangelReale/swfinfo v0.0.0-20180612120335-24bc2c8ef835/go.mod h1:kh32rkqHW5q6gpiuzSiTNZmPMy1rk6FgTp0VRNyGovI=
 github.com/TylerBrock/colorjson v0.0.0-20180527164720-95ec53f28296 h1:JYWTroLXcNzSCgu66NMgdjwoMHQRbv2SoOVNFb4kRkE=
 github.com/TylerBrock/colorjson v0.0.0-20180527164720-95ec53f28296/go.mod h1:VSw57q4QFiWDbRnjdX8Cb3Ow0SFncRw+bA/ofY6Q83w=
 github.com/andybalholm/cascadia v1.0.0 h1:hOCXnnZ5A+3eVDX8pvgl4kofXv2ELss0bKcqRySc45o=
@@ -52,6 +56,8 @@ github.com/saintfish/chardet v0.0.0-20120816061221-3af4cd4741ca h1:NugYot0LIVPxT
 github.com/saintfish/chardet v0.0.0-20120816061221-3af4cd4741ca/go.mod h1:uugorj2VCxiV1x+LzaIdVa9b4S4qGAcH6cbhh4qVxOU=
 github.com/sirupsen/logrus v1.3.0 h1:hI/7Q+DtNZ2kINb6qt/lS+IyXnHQe9e90POfeewL/ME=
 github.com/sirupsen/logrus v1.3.0/go.mod h1:LxeOpSwHxABJmUn/MG1IvRgCAasNZTLOkJPxbbu5VWo=
+github.com/smira/lzma v0.0.0-20160124201817-7f0af6269940 h1:z3NJMtzxmGxEs+RUxFpp3jxuFzeG2ihp6jZ0FZi75Wc=
+github.com/smira/lzma v0.0.0-20160124201817-7f0af6269940/go.mod h1:zmVvOLLLFrvqaEvoz1i14UoaNPVg8ge70IA/NblPfw8=
 github.com/stretchr/objx v0.1.1/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/testify v1.2.2 h1:bSDNvY7ZPG5RlJ8otE/7V6gMiyenm9RtJ7IUVIAoJ1w=
 github.com/stretchr/testify v1.2.2/go.mod h1:a8OnRcib4nhh0OaRAV+Yts87kKdq0PP7pXfy6kDkUVs=

@@ -26,5 +26,6 @@ import (
 	_ "github.com/gocaio/goca/plugins/odt"
 	_ "github.com/gocaio/goca/plugins/pdf"
 	_ "github.com/gocaio/goca/plugins/ppt"
+	_ "github.com/gocaio/goca/plugins/swf"
 	_ "github.com/gocaio/goca/plugins/xls"
 )
