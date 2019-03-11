@@ -70,6 +70,8 @@ func (swf *swfMetaExtractor) readSWF(target string, data []byte) {
 		out.Duration = doc.Duration().String()
 		out.Version = doc.Version
 		out.FrameRate = doc.FrameRate
+		out.ImageWidth = doc.FrameSize.Xmax.Pixels()
+		out.ImageHeight = doc.FrameSize.Ymax.Pixels()
 		out.FrameCount = doc.FrameCount
 		out.Comment = doc.Compression.String()
 

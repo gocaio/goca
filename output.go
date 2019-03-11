@@ -69,6 +69,8 @@ type Output struct {
 	Version      uint8   `json:"version,omitempty"`
 	FrameCount   uint16  `json:"frame_count,omitempty"`
 	FrameRate    float32 `json:"frame_rate,omitempty"`
+	ImageWidth   float32 `json:"image_width,omitempty"`
+	ImageHeight  float32 `json:"image_height,omitempty"`
 }
 
 func processOutput(module, url string, out *Output) {
