@@ -21,7 +21,7 @@ import (
 	"testing"
 
 	"github.com/gocaio/goca"
-	"github.com/gocaio/goca/testData"
+	gocatesting "github.com/gocaio/goca/gocaTesting"
 )
 
 // Test server URL.
@@ -42,7 +42,7 @@ func TestReadSWF(t *testing.T) {
 	// Call the plugin entrypoint
 	setup(ctrl)
 
-	testData.GetAssets(t, ctrl, testserver, plugName)
+	gocatesting.GetAssets(t, ctrl, testserver, plugName)
 }
 
 func processOutput(module, url string, out *goca.Output) {
