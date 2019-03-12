@@ -103,6 +103,9 @@ var DorkLib = dorkLib{
 	"image/webp": []Dork{
 		Dork{"google", "filetype:webp"},
 	},
+	"image/vnd.adobe.photoshop": []Dork{
+		Dork{"google", "filetype:psd"},
+	},
 	"audio/x-flac": []Dork{
 		Dork{"google", "filetype:flac"},
 	},
