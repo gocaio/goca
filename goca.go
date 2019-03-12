@@ -155,12 +155,16 @@ func getDorkers(typ string, input Input) *dorker.Dorker {
 func setLogLevel() {
 	switch LogLevel {
 	case "info":
+	case "1":
 		log.SetLevel(log.InfoLevel)
 	case "warn":
+	case "2":
 		log.SetLevel(log.WarnLevel)
 	case "error":
+	case "3":
 		log.SetLevel(log.ErrorLevel)
 	case "debug":
+	case "4":
 		log.SetLevel(log.DebugLevel)
 	default:
 		log.SetOutput(ioutil.Discard)
