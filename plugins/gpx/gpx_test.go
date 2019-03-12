@@ -68,13 +68,13 @@ func validateCaseA(out *goca.Output) {
 		T.Errorf("expected \"1.1\" but found %s", out.DocumentID)
 	}
 	if out.Producer != "DDAAXX TCX Extractor and Converter" {
-		T.Errorf("expected \"DDAAXX TCX Extractor and Converter\" but found %d", out.Producer)
+		T.Errorf("expected \"DDAAXX TCX Extractor and Converter\" but found %s", out.Producer)
 	}
 	if out.Title != "" {
-		T.Errorf("expected \"\" but found %f", out.Title)
+		T.Errorf("expected \"\" but found %s", out.Title)
 	}
 	if out.Description != "" {
-		T.Errorf("expected \"\" but found %d", out.Description)
+		T.Errorf("expected \"\" but found %s", out.Description)
 	}
 	if out.ModifiedBy != "" {
 		T.Errorf("expected \"\" but found %s", out.ModifiedBy)
@@ -105,13 +105,13 @@ func validateCaseB(out *goca.Output) {
 		T.Errorf("expected \"1.1\" but found %s", out.DocumentID)
 	}
 	if out.Producer != "StravaGPX" {
-		T.Errorf("expected \"StravaGPX\" but found %d", out.Producer)
+		T.Errorf("expected \"StravaGPX\" but found %s", out.Producer)
 	}
 	if out.Title != "" {
-		T.Errorf("expected \"\" but found %f", out.Title)
+		T.Errorf("expected \"\" but found %s", out.Title)
 	}
 	if out.Description != "" {
-		T.Errorf("expected \"\" but found %d", out.Description)
+		T.Errorf("expected \"\" but found %s", out.Description)
 	}
 	if out.ModifiedBy != "" {
 		T.Errorf("expected \"\" but found %s", out.ModifiedBy)
@@ -142,13 +142,13 @@ func validateCaseC(out *goca.Output) {
 		T.Errorf("expected \"1.1\" but found %s", out.DocumentID)
 	}
 	if out.Producer != "Garmin Desktop App" {
-		T.Errorf("expected \"Garmin Desktop App\" but found %d", out.Producer)
+		T.Errorf("expected \"Garmin Desktop App\" but found %s", out.Producer)
 	}
 	if out.Title != "" {
-		T.Errorf("expected \"\" but found %f", out.Title)
+		T.Errorf("expected \"\" but found %s", out.Title)
 	}
 	if out.Description != "" {
-		T.Errorf("expected \"\" but found %d", out.Description)
+		T.Errorf("expected \"\" but found %s", out.Description)
 	}
 	if out.ModifiedBy != "" {
 		T.Errorf("expected \"\" but found %s", out.ModifiedBy)
@@ -169,4 +169,3 @@ func validateCaseC(out *goca.Output) {
 		T.Errorf("expected \"\" but found %s", out.Keywords)
 	}
 }
-

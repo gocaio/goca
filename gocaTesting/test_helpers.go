@@ -53,6 +53,13 @@ func GetAssets(t *testing.T, ctrl goca.Manager, testserver, plugName string) {
 	}
 
 	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		//t.Errorf("there are no files for %s", plugName)
+		t.Skipf("skipping test for %s, because there is no data in test server", plugName)
+		return
+	}
+
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		t.Errorf("unable to read data from server (%s) %s", server, err.Error())
