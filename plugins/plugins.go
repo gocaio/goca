@@ -19,6 +19,7 @@ package plugins
 import (
 	_ "github.com/gocaio/goca/plugins/doc"
 	_ "github.com/gocaio/goca/plugins/dsstore"
+	_ "github.com/gocaio/goca/plugins/gpx"
 	_ "github.com/gocaio/goca/plugins/image"
 	_ "github.com/gocaio/goca/plugins/mp3"
 	_ "github.com/gocaio/goca/plugins/odp"

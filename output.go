@@ -71,6 +71,7 @@ type Output struct {
 	FrameRate    float32 `json:"frame_rate,omitempty"`
 	ImageWidth   float32 `json:"image_width,omitempty"`
 	ImageHeight  float32 `json:"image_height,omitempty"`
+	Email        string  `json:"email,omitempty"`
 }
 
 func processOutput(module, url string, out *Output) {

@@ -140,6 +140,14 @@ var DorkLib = dorkLib{
 	"application/x-shockwave-flash": []Dork{
 		Dork{"google", "filetype:swf"},
 	},
+	"application/gpx": []Dork{
+		Dork{"google", "intitle:index.of +?last modified? +?parent directory? +(gpx) -htm -html -php -asp"},
+		Dork{"google", "filetype:gpx"},
+	},
+	"application/gpx+xml": []Dork{
+		Dork{"google", "intitle:index.of +?last modified? +?parent directory? +(gpx) -htm -html -php -asp"},
+		Dork{"google", "filetype:gpx"},
+	},
 }
 
 func (dl dorkLib) GetByType(typ string) []Dork {
