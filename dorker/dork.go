@@ -87,6 +87,7 @@ var DorkLib = dorkLib{
 		Dork{"google", "filetype:opus"},
 	},
 	"image/jpeg": {
+		Dork{"google", "intitle:index.of +?last modified? +?parent directory? +(jpeg|jpg|jpe|jfif|jfi|jif) -htm -html -php -asp"},
 		Dork{"google", "filetype:jpeg"},
 		Dork{"google", "filetype:jpg"},
 		Dork{"google", "filetype:jpe"},
@@ -95,15 +96,19 @@ var DorkLib = dorkLib{
 		Dork{"google", "filetype:jif"},
 	},
 	"image/png": []Dork{
+		Dork{"google", "intitle:index.of +?last modified? +?parent directory? +(png) -htm -html -php -asp"},
 		Dork{"google", "filetype:png"},
 	},
 	"image/gif": []Dork{
+		Dork{"google", "intitle:index.of +?last modified? +?parent directory? +(gif) -htm -html -php -asp"},
 		Dork{"google", "filetype:gif"},
 	},
 	"image/webp": []Dork{
+		Dork{"google", "intitle:index.of +?last modified? +?parent directory? +(webp) -htm -html -php -asp"},
 		Dork{"google", "filetype:webp"},
 	},
 	"image/vnd.adobe.photoshop": []Dork{
+		Dork{"google", "intitle:index.of +?last modified? +?parent directory? +(psd) -htm -html -php -asp"},
 		Dork{"google", "filetype:psd"},
 	},
 	"audio/x-flac": []Dork{
