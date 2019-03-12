@@ -148,6 +148,9 @@ var DorkLib = dorkLib{
 		Dork{"google", "intitle:index.of +?last modified? +?parent directory? +(gpx) -htm -html -php -asp"},
 		Dork{"google", "filetype:gpx"},
 	},
+	"application/postscript": []Dork{
+		Dork{"google", "filetype:ps"},
+	},
 }
 
 func (dl dorkLib) GetByType(typ string) []Dork {
