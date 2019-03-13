@@ -15,8 +15,8 @@ before_script:
   - "curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/master/install.sh | sudo bash"
 
 script:
-  - go get -t -v ./...
-  - go test -v -race -coverprofile=coverage.txt -covermode=atomic ./...
+  - make deps
+  - make test
   - if [ "$TRAVIS_BRANCH" = "master" ]; then fossa init; fi
   - if [ "$TRAVIS_BRANCH" = "master" ]; then fossa analyze; fi
 

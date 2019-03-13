@@ -30,7 +30,7 @@ clean:
 	rm -rf $(BUILD_DIR)
 
 deps:
-	$(GOGET) ./...
+	$(GOGET) -t -v ./...
 
 # Cross compilation
 build-linux: $(SRC)
