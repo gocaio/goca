@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
 	"path"
@@ -44,6 +45,7 @@ func main() {
 }
 
 func handler(w http.ResponseWriter, req *http.Request) {
+	log.Printf("Requested URI %s\n", req.RequestURI)
 	plugin, asset := extractParts(req)
 	if plugin == "" { // list plugins
 		files, err := ioutil.ReadDir(basePath)

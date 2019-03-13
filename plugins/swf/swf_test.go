@@ -17,6 +17,7 @@
 package swf
 
 import (
+	"os"
 	"strings"
 	"testing"
 
@@ -25,7 +26,7 @@ import (
 )
 
 // Test server URL.
-var testserver = "https://test.goca.io"
+var testserver = os.Getenv("GOCA_TEST_SERVER")
 
 // T is a global reference for the test. This allows us to use *testing.T
 // methods anywhere
