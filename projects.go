@@ -20,6 +20,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"log"
 	"runtime"
 	"time"
 
@@ -177,6 +178,7 @@ func (ps ProjectStore) PrintProject(name string) error {
 	if err != nil {
 		return err
 	}
+	log.Println(project)
 
 	for _, scanid := range project.Scans {
 		scan, err := ps.GetScan(scanid)
@@ -184,6 +186,7 @@ func (ps ProjectStore) PrintProject(name string) error {
 			return err
 		}
 		scans = append(scans, scan)
+		log.Println("HA")
 	}
 
 	if runtime.GOOS == "windows" {
