@@ -52,6 +52,9 @@ type pdfMetaExtractor struct {
 func (pdf *pdfMetaExtractor) readPDF(target string, data []byte) {
 	log.Debugf("[PDF] Received Data Length: %d - TARGET: %s\n", len(data), target)
 
+	log.Println(target)
+	// log.Println(string(data))
+
 	defer goca.PluginRecover("PDF", "readPDF")
 
 	reader := bytes.NewReader(data)

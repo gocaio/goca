@@ -38,14 +38,15 @@ var (
 	term        string
 	domain      string
 	url         string
-	listURL     = false
+	listURL     bool
 	folder      string
 	pages       = 1
 	timeOut     = 30
 	ua          string
-	listPlugins = false
+	listPlugins bool
 	filetype    = "*"
 	loglevel    string
+	scrapper    string
 )
 
 func init() {
@@ -60,6 +61,7 @@ func init() {
 	flag.StringVar(&filetype, "filetype", filetype, "Look for metadata on")
 	flag.StringVar(&loglevel, "loglevel", loglevel, "Log level")
 	flag.BoolVar(&listPlugins, "listplugins", listPlugins, "List available plugins")
+	flag.StringVar(&scrapper, "scrapper", scrapper, "Scrapes the given domain (e.g. test.goca.io)")
 	flag.Parse()
 }
 
@@ -83,7 +85,7 @@ func main() {
 		os.Exit(0)
 	}
 
-	if term != "" || url != "" || domain != "" || folder != "" {
+	if term != "" || url != "" || domain != "" || folder != "" || scrapper != "" {
 		if len(loglevel) != 0 {
 			log.Infof("%s\n", banner)
 			log.Infof("Version: %s (%s) built on %s\n", goca.AppVersion, gitCommit, buildDate)
@@ -128,9 +130,14 @@ func main() {
 				PagesDork: pages,
 				TimeOut:   timeOut,
 				UA:        ua,
+				Scrapper:  scrapper,
 			}
 
-			goca.StartTerm(in)
+			if scrapper != "" {
+				goca.StartScrapper(in)
+			} else {
+				goca.StartTerm(in)
+			}
 		}
 	} else {
 		flag.PrintDefaults()
