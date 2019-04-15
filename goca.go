@@ -26,6 +26,8 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
+// UserAgent defines the UserAgent used by goca
+// FIXME: This should be possible to be overwritten with a flag
 const UserAgent = "The_Goca_v0.1"
 
 var (
@@ -37,7 +39,7 @@ var (
 	LogLevel string
 )
 
-// Start is the Goca library entrypoint for terms
+// StartTerm is the Goca library entrypoint for terms
 func StartTerm(input Input) {
 	setLogLevel()
 
