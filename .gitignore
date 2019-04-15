@@ -150,3 +150,6 @@ tramp
 
 # build files
 build
+
+# db files
+*.db
