@@ -18,7 +18,6 @@ package goca
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 
@@ -34,14 +33,10 @@ var (
 	AppName string
 	// AppVersion is the Application version
 	AppVersion string
-	// LogLevel sets the log level for Goca
-	LogLevel string
 )
 
 // StartTerm is the Goca library entrypoint for terms
 func StartTerm(input Input) {
-	setLogLevel()
-
 	if input.ListURL {
 		fmt.Println("Goca has got the following URLs for you")
 	}
@@ -78,7 +73,6 @@ func StartTerm(input Input) {
 
 // StartFolder is the Goca library entrypoint for folders
 func StartFolder(input Input) {
-	setLogLevel()
 	if !validFolder(input.Folder) {
 		log.Fatalf("The folder %s is not valid\n", input.Folder)
 	}
@@ -117,8 +111,6 @@ func StartFolder(input Input) {
 func StartScrapper(input Input) {
 	// FIXME: This should be passed with the input config and set with a flag
 	var depth = 3
-
-	setLogLevel()
 
 	for _, plugType := range input.FileType {
 		// Initialize context or controller per each type
@@ -195,26 +187,6 @@ func getDorkers(typ string, input Input) *dorker.Dorker {
 		}
 	}
 	return d
-}
-
-func setLogLevel() {
-	switch LogLevel {
-	case "info":
-	case "1":
-		log.SetLevel(log.InfoLevel)
-	case "warn":
-	case "2":
-		log.SetLevel(log.WarnLevel)
-	case "error":
-	case "3":
-		log.SetLevel(log.ErrorLevel)
-	case "debug":
-	case "4":
-		log.SetLevel(log.DebugLevel)
-	default:
-		log.SetOutput(ioutil.Discard)
-		log.SetLevel(log.InfoLevel)
-	}
 }
 
 func validFolder(folder string) bool {
