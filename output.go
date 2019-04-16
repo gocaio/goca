@@ -77,6 +77,10 @@ type Output struct {
 func processOutput(module, url string, out *Output) {
 	// This can be either save to database or display it on screen or send it to astilectron
 
+	if CurrentProject.Name != "" {
+		PS.SaveScan(CurrentProject.Name, out)
+	}
+
 	if runtime.GOOS == "windows" {
 		data, err := json.MarshalIndent(out, "", "\t")
 		if err != nil {
