@@ -20,6 +20,4 @@ import (
 	"testing"
 )
 
-func TestScrapper(t *testing.T) {
-	
-}
+func TestScrapper(t *testing.T) {}
