@@ -27,7 +27,6 @@ import (
 )
 
 // UserAgent defines the UserAgent used by goca
-// FIXME: This should be possible to be overwritten with a flag
 const UserAgent = "The_Goca_v0.1"
 
 var (
@@ -110,6 +109,50 @@ func StartFolder(input Input) {
 		}
 
 		ctx.getData(plugType, files, true, false)
+	}
+}
+
+// StartScrapper is the Goca library entrypoint for the web scrapper
+// TODO: v0.3.0 (core rewrite) This should been placed on other file/location
+func StartScrapper(input Input) {
+	// FIXME: This should be passed with the input config and set with a flag
+	var depth = 3
+
+	setLogLevel()
+
+	for _, plugType := range input.FileType {
+		// Initialize context or controller per each type
+		ctx := NewController(input)
+
+		// Initialize all plugins based on context
+		executePlugins(plugType, ctx)
+
+		scrapper := dorker.NewScrapper(input.Scrapper, depth)
+		if err := scrapper.Run(); err != nil {
+			log.Fatal(err)
+		}
+
+		urls := scrapper.Links()
+
+		log.Debugf("Got %d url\n", len(urls))
+		log.Debugln(urls)
+
+		if len(urls) <= 0 {
+			log.Infof("No file URLs available on %s with depth %d", input.Scrapper, depth)
+			break
+		}
+
+		if input.ListURL {
+			listURL(plugType, urls)
+			break
+		}
+
+		if len(urls) == 0 {
+			log.Warnln("Empty URL from dorker, Engine may have ban you.")
+		}
+
+		// TODO: Downloader should just download assets.
+		ctx.getData(plugType, urls, false, false)
 	}
 }
 
@@ -197,4 +240,5 @@ type Input struct {
 	PagesDork int
 	TimeOut   int
 	UA        string
+	Scrapper  string
 }
