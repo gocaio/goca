@@ -19,6 +19,8 @@ require (
 	github.com/kevinborras/metagopenoffice v0.0.0-20190130115525-5f50564a872b
 	github.com/mattn/go-colorable v0.0.9 // indirect
 	github.com/mattn/go-isatty v0.0.4 // indirect
+	github.com/mattn/go-runewidth v0.0.4
+	github.com/nsf/termbox-go v0.0.0-20190325093121-288510b9734e
 	github.com/nwidger/jsoncolor v0.0.0-20170215171346-75a6de4340e5
 	github.com/saintfish/chardet v0.0.0-20120816061221-3af4cd4741ca // indirect
 	github.com/sirupsen/logrus v1.3.0
