@@ -44,7 +44,7 @@ var (
 	ua           string
 	listPlugins  bool
 	filetype     = "*"
-	loglevel     string
+	loglevel     = "info"
 	scrapper     string
 	projectName  string
 	printProject string
@@ -73,10 +73,11 @@ func main() {
 	var err error
 	goca.AppName = appName
 	goca.AppVersion = gitTag
-	goca.LogLevel = loglevel
 	if len(gitTag) == 0 {
 		goca.AppVersion = "(dev)"
 	}
+
+	setLogLevel()
 
 	if listPlugins {
 		plugins := goca.ListPlugins()
@@ -178,5 +179,31 @@ func main() {
 		} else {
 			flag.PrintDefaults()
 		}
+	}
+}
+
+func setLogLevel() {
+	log.SetOutput(os.Stdout)
+
+	switch loglevel {
+	case "3":
+		log.SetLevel(log.DebugLevel)
+	case "debug":
+		log.SetLevel(log.DebugLevel)
+	case "2":
+		log.SetLevel(log.InfoLevel)
+	case "info":
+		log.SetLevel(log.InfoLevel)
+	case "1":
+		log.SetLevel(log.WarnLevel)
+	case "warn":
+		log.SetLevel(log.WarnLevel)
+	case "0":
+		log.SetLevel(log.ErrorLevel)
+	case "error":
+		log.SetLevel(log.ErrorLevel)
+	default:
+		log.SetLevel(log.InfoLevel)
+		log.Error("No valid loglevel, falling back to info level")
 	}
 }
