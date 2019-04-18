@@ -94,7 +94,7 @@ func main() {
 		os.Exit(0)
 	}
 
-	if term != "" || url != "" || domain != "" || folder != "" || scrapper != "" {
+	if (term != "" || url != "" || domain != "" || folder != "" || scrapper != "") && !listProjects {
 		if len(loglevel) != 0 {
 			log.Infof("%s\n", banner)
 			log.Infof("Version: %s (%s) built on %s\n", goca.AppVersion, gitCommit, buildDate)
