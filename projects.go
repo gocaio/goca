@@ -169,6 +169,22 @@ func (ps ProjectStore) GetScan(id bson.ObjectID) (Scan, error) {
 	return scan, nil
 }
 
+// Obtain all projects
+func (ps ProjectStore) GetProjectList() ([]Project, error) {
+	var projects []Project
+
+	err := ps.DS.Find(&projects, nil)
+	if err != nil {
+		return projects, err
+	}
+
+	if len(projects) < 1 {
+		return projects, errors.New("No projects found.")
+	}
+
+	return projects, nil
+}
+
 // Prints a project
 func (ps ProjectStore) PrintProject(name string) error {
 	var scans []Scan

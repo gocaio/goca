@@ -49,6 +49,7 @@ var (
 	scrapper     string
 	projectName  string
 	printProject string
+	listProjects bool
 )
 
 func init() {
@@ -66,6 +67,7 @@ func init() {
 	flag.StringVar(&scrapper, "scrapper", scrapper, "Scrapes the given domain (e.g. test.goca.io)")
 	flag.StringVar(&projectName, "project", projectName, "Project name to work on")
 	flag.StringVar(&printProject, "printproject", printProject, "Project name to print")
+	flag.BoolVar(&listProjects, "listprojects", listProjects, "List stored projects")
 
 	flag.Parse()
 }
@@ -176,7 +178,22 @@ func main() {
 			if err != nil {
 				log.Fatal("Project not found.")
 			}
+		} else if listProjects {
+			goca.PS, err = goca.OpenProjectStore()
+			if err != nil {
+				log.Fatal(err)
+			}
+			defer goca.PS.DS.Close()
 
+			projects, err := goca.PS.GetProjectList()
+			if err != nil {
+				log.Fatal("Project not found.")
+			}
+
+			fmt.Println("Goca projects:")
+			for _, project := range projects {
+				fmt.Println("- " + project.Name)
+			}
 		} else {
 			flag.PrintDefaults()
 		}
