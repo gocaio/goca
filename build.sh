@@ -29,5 +29,7 @@ do
     if [ $? -ne 0 ]; then
         echo 'An error has occurred! Aborting the script execution...'
         exit 1
+    else
+        sha256sum $build_dir$output_name > $build_dir$output_name.sha256
     fi
 done

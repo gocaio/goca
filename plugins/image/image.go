@@ -31,9 +31,11 @@ func init() {
 	goca.RegisterPlugin(plugName, goca.Plugin{
 		Type: plugName,
 		Assoc: []string{"image/jpeg", // JPEG
-			"image/png",  // PNG
-			"image/gif",  // GIF
-			"image/webp", // WEBP
+			"image/png",                 // PNG
+			"image/gif",                 // GIF
+			"image/webp",                // WEBP
+			"image/vnd.adobe.photoshop", // PSD
+			"application/postscript",    // EPS, AI, PS
 		},
 		Action:  setup,
 		Matcher: nil,

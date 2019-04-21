@@ -18,7 +18,6 @@ package goca
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 
@@ -26,6 +25,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
+// UserAgent defines the UserAgent used by goca
 const UserAgent = "The_Goca_v0.1"
 
 var (
@@ -33,14 +33,10 @@ var (
 	AppName string
 	// AppVersion is the Application version
 	AppVersion string
-	// LogLevel sets the log level for Goca
-	LogLevel string
 )
 
-// Start is the Goca library entrypoint for terms
+// StartTerm is the Goca library entrypoint for terms
 func StartTerm(input Input) {
-	setLogLevel()
-
 	if input.ListURL {
 		fmt.Println("Goca has got the following URLs for you")
 	}
@@ -77,7 +73,6 @@ func StartTerm(input Input) {
 
 // StartFolder is the Goca library entrypoint for folders
 func StartFolder(input Input) {
-	setLogLevel()
 	if !validFolder(input.Folder) {
 		log.Fatalf("The folder %s is not valid\n", input.Folder)
 	}
@@ -108,6 +103,48 @@ func StartFolder(input Input) {
 		}
 
 		ctx.getData(plugType, files, true, false)
+	}
+}
+
+// StartScrapper is the Goca library entrypoint for the web scrapper
+// TODO: v0.3.0 (core rewrite) This should been placed on other file/location
+func StartScrapper(input Input) {
+	// FIXME: This should be passed with the input config and set with a flag
+	var depth = 3
+
+	for _, plugType := range input.FileType {
+		// Initialize context or controller per each type
+		ctx := NewController(input)
+
+		// Initialize all plugins based on context
+		executePlugins(plugType, ctx)
+
+		scrapper := dorker.NewScrapper(input.Scrapper, depth)
+		if err := scrapper.Run(); err != nil {
+			log.Fatal(err)
+		}
+
+		urls := scrapper.Links()
+
+		log.Debugf("Got %d url\n", len(urls))
+		log.Debugln(urls)
+
+		if len(urls) <= 0 {
+			log.Infof("No file URLs available on %s with depth %d", input.Scrapper, depth)
+			break
+		}
+
+		if input.ListURL {
+			listURL(plugType, urls)
+			break
+		}
+
+		if len(urls) == 0 {
+			log.Warnln("Empty URL from dorker, Engine may have ban you.")
+		}
+
+		// TODO: Downloader should just download assets.
+		ctx.getData(plugType, urls, false, false)
 	}
 }
 
@@ -152,22 +189,6 @@ func getDorkers(typ string, input Input) *dorker.Dorker {
 	return d
 }
 
-func setLogLevel() {
-	switch LogLevel {
-	case "info":
-		log.SetLevel(log.InfoLevel)
-	case "warn":
-		log.SetLevel(log.WarnLevel)
-	case "error":
-		log.SetLevel(log.ErrorLevel)
-	case "debug":
-		log.SetLevel(log.DebugLevel)
-	default:
-		log.SetOutput(ioutil.Discard)
-		log.SetLevel(log.InfoLevel)
-	}
-}
-
 func validFolder(folder string) bool {
 	_, err := os.Stat(folder)
 	return !os.IsNotExist(err)
@@ -191,4 +212,5 @@ type Input struct {
 	PagesDork int
 	TimeOut   int
 	UA        string
+	Scrapper  string
 }

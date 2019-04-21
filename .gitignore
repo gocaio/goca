@@ -1,3 +1,8 @@
+# ---> Project stuff
+.cask/
+build/
+*.db
+
 # ---> Go
 # Compiled Object files, Static and Dynamic libs (Shared Objects)
 *.o
@@ -45,7 +50,6 @@ __pycache__
 
 # Icon must end with two \r
 Icon
-
 
 # Thumbnails
 ._*
@@ -105,7 +109,6 @@ sftp-config.json
 .settings
 .vscode
 
-
 # ---> Vim
 [._]*.s[a-w][a-z]
 [._]s[a-w][a-z]
@@ -144,9 +147,3 @@ tramp
 
 # AUCTeX auto folder
 /auto/
-
-# cask packages
-.cask/
-
-# build files
-build

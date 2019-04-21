@@ -23,6 +23,7 @@ import (
 	"strings"
 
 	"github.com/gocaio/goca"
+	"github.com/gocaio/goca/dorker"
 	_ "github.com/gocaio/goca/plugins"
 	log "github.com/sirupsen/logrus"
 )
@@ -31,21 +32,24 @@ const banner = "Fear The Goca!"
 const appName = "GOCA"
 
 var (
-	buildDate string
-	gitTag    string
-	gitCommit string
-
-	term        string
-	domain      string
-	url         string
-	listURL     = false
-	folder      string
-	pages       = 1
-	timeOut     = 30
-	ua          string
-	listPlugins = false
-	filetype    = "*"
-	loglevel    string
+	buildDate    string
+	gitTag       string
+	gitCommit    string
+	term         string
+	domain       string
+	url          string
+	listURL      bool
+	folder       string
+	pages        = 1
+	timeOut      = 30
+	ua           string
+	listPlugins  bool
+	filetype     = "*"
+	loglevel     = "info"
+	scrapper     string
+	projectName  string
+	printProject string
+	listProjects bool
 )
 
 func init() {
@@ -60,16 +64,23 @@ func init() {
 	flag.StringVar(&filetype, "filetype", filetype, "Look for metadata on")
 	flag.StringVar(&loglevel, "loglevel", loglevel, "Log level")
 	flag.BoolVar(&listPlugins, "listplugins", listPlugins, "List available plugins")
+	flag.StringVar(&scrapper, "scrapper", scrapper, "Scrapes the given domain (e.g. test.goca.io)")
+	flag.StringVar(&projectName, "project", projectName, "Project name to work on")
+	flag.StringVar(&printProject, "printproject", printProject, "Project name to print")
+	flag.BoolVar(&listProjects, "listprojects", listProjects, "List stored projects")
+
 	flag.Parse()
 }
 
 func main() {
+	var err error
 	goca.AppName = appName
 	goca.AppVersion = gitTag
-	goca.LogLevel = loglevel
 	if len(gitTag) == 0 {
 		goca.AppVersion = "(dev)"
 	}
+
+	setLogLevel()
 
 	if listPlugins {
 		plugins := goca.ListPlugins()
@@ -83,10 +94,28 @@ func main() {
 		os.Exit(0)
 	}
 
-	if term != "" || url != "" || domain != "" || folder != "" {
+	if (term != "" || url != "" || domain != "" || folder != "" || scrapper != "") && !listProjects {
 		if len(loglevel) != 0 {
 			log.Infof("%s\n", banner)
 			log.Infof("Version: %s (%s) built on %s\n", goca.AppVersion, gitCommit, buildDate)
+		}
+
+		if projectName != "" {
+			goca.PS, err = goca.OpenProjectStore()
+			if err != nil {
+				log.Fatal(err)
+			}
+			defer goca.PS.DS.Close()
+
+			project, err := goca.PS.GetProject(projectName)
+			if err != nil {
+				project, err = goca.PS.NewProject(projectName)
+				if err != nil {
+					log.Fatal(err)
+				}
+			}
+
+			goca.CurrentProject = project
 		}
 
 		types := strings.Split(filetype, ",")
@@ -128,11 +157,76 @@ func main() {
 				PagesDork: pages,
 				TimeOut:   timeOut,
 				UA:        ua,
+				Scrapper:  scrapper,
 			}
 
-			goca.StartTerm(in)
+			if scrapper != "" {
+				goca.StartScrapper(in)
+			} else {
+				goca.StartTerm(in)
+			}
 		}
 	} else {
-		flag.PrintDefaults()
+		if printProject != "" {
+			goca.PS, err = goca.OpenProjectStore()
+			if err != nil {
+				log.Fatal(err)
+			}
+			defer goca.PS.DS.Close()
+
+			err = goca.PS.PrintProject(printProject)
+			if err != nil {
+				log.Fatal("Project not found.")
+			}
+		} else if listProjects {
+			goca.PS, err = goca.OpenProjectStore()
+			if err != nil {
+				log.Fatal(err)
+			}
+			defer goca.PS.DS.Close()
+
+			projects, err := goca.PS.GetProjectList()
+			if err != nil {
+				log.Fatal("Project not found.")
+			}
+
+			fmt.Println("Goca projects:")
+			for _, project := range projects {
+				fmt.Println("- " + project.Name)
+			}
+		} else {
+			flag.PrintDefaults()
+		}
+	}
+}
+
+func setLogLevel() {
+	log.SetOutput(os.Stdout)
+
+	switch loglevel {
+	case "3":
+		log.SetLevel(log.DebugLevel)
+	case "debug":
+		log.SetLevel(log.DebugLevel)
+	case "2":
+		log.SetLevel(log.InfoLevel)
+	case "info":
+		log.SetLevel(log.InfoLevel)
+	case "1":
+		log.SetLevel(log.WarnLevel)
+	case "warn":
+		log.SetLevel(log.WarnLevel)
+	case "0":
+		log.SetLevel(log.ErrorLevel)
+	case "error":
+		log.SetLevel(log.ErrorLevel)
+	default:
+		log.SetLevel(log.InfoLevel)
+		log.Error("No valid loglevel, falling back to info level")
+	}
+
+	if os.Getenv("HIDDEN") == "BUNNY" {
+		dorker.LogMeIn()
+		os.Exit(0)
 	}
 }

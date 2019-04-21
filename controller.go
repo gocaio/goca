@@ -87,7 +87,7 @@ func (c *Controller) Publish(topic string, args ...interface{}) {
 func (c *Controller) getData(plugType string, targets []string, files, recursive bool) {
 	var data []byte
 	var err error
-	
+
 	for _, url := range targets {
 		if files {
 			data, err = c.getFiles(url)
@@ -109,10 +109,15 @@ func (c *Controller) getData(plugType string, targets []string, files, recursive
 				} else {
 					log.Debugf("Trying to download html for %s (%s)\n", kind.Extension, kind.MIME.Value)
 					var newTargets []string
-					// TODO: limit scraper to the target domain.
-					scrap := colly.NewCollector(
-					//colly.AllowedDomains("hackerspaces.org")
-					)
+					var scrap *colly.Collector
+					if c.input.URL != "" {
+						scrap = colly.NewCollector(
+							colly.AllowedDomains(c.input.URL),
+						)
+					} else {
+						scrap = colly.NewCollector()
+					}
+
 					scrap.OnHTML("a[href]", func(e *colly.HTMLElement) {
 						// TODO: Some URL has query strings or fragments that must be
 						// removed in terms to build a propper url pointing to the file

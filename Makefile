@@ -19,15 +19,18 @@ all: test build
 build: $(SRC)
 	$(GOBUILD) $(LDFLAGS) -o $(BUILD_DIR)$(BINARY_NAME) -v $^
 
-test: 
-	$(GOTEST) -v -race -cover -count 1 ./...
+test:
+	GOCA_TEST_SERVER="https://test.goca.io" $(GOTEST) -v -race -cover -count 1 ./...
+
+test-local:
+	GOCA_TEST_SERVER="http://localhost:5000" $(GOTEST) -v -race -cover -count 1 ./...
 
 clean: 
 	$(GOCLEAN)
 	rm -rf $(BUILD_DIR)
 
 deps:
-	$(GOGET) ./...
+	$(GOGET) -t -v ./...
 
 # Cross compilation
 build-linux: $(SRC)

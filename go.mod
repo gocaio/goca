@@ -1,8 +1,9 @@
 module github.com/gocaio/goca
 
 require (
+	github.com/32bitkid/bitreader v0.0.0-20180710164922-66b707e0f706 // indirect
 	github.com/PuerkitoBio/goquery v1.5.0 // indirect
-	github.com/TylerBrock/colorjson v0.0.0-20180527164720-95ec53f28296
+	github.com/RangelReale/swfinfo v0.0.0-20180612120335-24bc2c8ef835
 	github.com/antchfx/htmlquery v0.0.0-20181228060131-db5c1236cbb4 // indirect
 	github.com/antchfx/xmlquery v0.0.0-20181223105952-355641961c92 // indirect
 	github.com/antchfx/xpath v0.0.0-20181208024549-4bbdf6db12aa // indirect
@@ -13,18 +14,23 @@ require (
 	github.com/gobwas/glob v0.2.3 // indirect
 	github.com/gocolly/colly v1.1.0
 	github.com/h2non/filetype v1.0.6
-	github.com/hokaccha/go-prettyjson v0.0.0-20180920040306-f579f869bbfe
-	github.com/k0kubun/pp v2.3.0+incompatible
 	github.com/kennygrant/sanitize v1.2.4 // indirect
 	github.com/kevinborras/metagoffice v1.0.0
 	github.com/kevinborras/metagopenoffice v0.0.0-20190130115525-5f50564a872b
-	github.com/mattn/go-colorable v0.0.9
+	github.com/mattn/go-colorable v0.0.9 // indirect
 	github.com/mattn/go-isatty v0.0.4 // indirect
+	github.com/mattn/go-runewidth v0.0.4
+	github.com/nsf/termbox-go v0.0.0-20190325093121-288510b9734e
 	github.com/nwidger/jsoncolor v0.0.0-20170215171346-75a6de4340e5
 	github.com/saintfish/chardet v0.0.0-20120816061221-3af4cd4741ca // indirect
 	github.com/sirupsen/logrus v1.3.0
+	github.com/smira/lzma v0.0.0-20160124201817-7f0af6269940 // indirect
 	github.com/temoto/robotstxt v0.0.0-20180810133444-97ee4a9ee6ea // indirect
-	golang.org/x/net v0.0.0-20190110200230-915654e7eabc // indirect
+	github.com/timshannon/bolthold v0.0.0-20190315152903-eed35b755671
+	github.com/tkrajina/gpxgo v1.0.0
+	go.etcd.io/bbolt v1.3.2 // indirect
+	go.mongodb.org/mongo-driver v1.0.0
+	golang.org/x/net v0.0.0-20190311183353-d8887717615a // indirect
 	golang.org/x/sync v0.0.0-20181221193216-37e7f081c4d4 // indirect
 	google.golang.org/appengine v1.4.0 // indirect
 	trimmer.io/go-xmp v0.0.0-20181216222714-4f6a2fb384a3

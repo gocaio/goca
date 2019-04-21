@@ -4,15 +4,25 @@ env:
 language: go
 go:
   - "1.11.x"
-  - master
+  - "1.12.x"
+  - tip
 
 matrix:
   allow_failures:
-    - go: master
+    - go: tip
+
+before_script:
+  - "curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/master/install.sh | sudo bash"
 
 script:
-  - go get -t -v ./...
-  - go test -v -race -coverprofile=coverage.txt -covermode=atomic ./...
+  - make deps
+  - make test
+  - if [ "$TRAVIS_BRANCH" = "master" ]; then fossa init; fi
+  - if [ "$TRAVIS_BRANCH" = "master" ]; then fossa analyze; fi
+
+after_success:
+  - ./scripts/deploy_to_docker.sh
+  - if [ "$TRAVIS_BRANCH" = "master" ]; then fossa test; fi
 
 before_deploy:
   - ./build.sh
@@ -26,3 +36,10 @@ deploy:
   overwrite: true
   on:
     tags: true
+
+notifications:
+  webhooks: 
+    urls:
+      - https://tgwh.goca.io/travisci
+    on_success: always
+    on_failure: always

@@ -4,7 +4,7 @@
 [![Build Status](https://travis-ci.org/gocaio/goca.svg?branch=dev)](https://travis-ci.org/gocaio/goca)
 [![GitHub Issues](https://img.shields.io/github/issues/gocaio/goca.svg)](https://github.com/gocaio/goca/issues)
 [![GitHub tag](https://img.shields.io/github/tag/gocaio/goca.svg)](https://github.com/gocaio/goca/tags)
-[![Go Version](https://img.shields.io/badge/go-1.11-blue.svg?logo=go)](https://golang.org/dl/)
+[![Go Version](https://img.shields.io/badge/go-1.12-blue.svg?logo=go)](https://golang.org/dl/)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 [![Contribute Yes](https://img.shields.io/badge/contribute-yes-brightgreen.svg)](https://github.com/gocaio/goca/blob/master/CONTRIBUTING.md)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fgocaio%2Fgoca.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fgocaio%2Fgoca?ref=badge_shield)
