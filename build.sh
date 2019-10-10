@@ -4,7 +4,7 @@ package=goca/goca.go
 package_name=goca
 
 buildDate=$(date -R)
-gitTag=$(git describe --exact-match HEAD 2> /dev/null)
+gitTag=$(git describe --tags --abbrev=0)
 gitCommit=$(git rev-parse HEAD)
 build_dir=build/
 ldflags="-X \"main.buildDate=$buildDate\" \
@@ -14,7 +14,7 @@ ldflags="-X \"main.buildDate=$buildDate\" \
 -w"
 
 platforms=("windows/amd64" "windows/386" "darwin/amd64" "linux/amd64" "linux/386" "linux/arm64" "linux/arm")
-
+go mod download
 for platform in "${platforms[@]}"
 do
     platform_split=(${platform//\// })

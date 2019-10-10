@@ -1,39 +1,48 @@
-# Go parameters
-GOCMD=go
-GOBUILD=$(GOCMD) build
-GORUN=$(GOCMD) run
-GOCLEAN=$(GOCMD) clean
-GOTEST=$(GOCMD) test
-GOGET=$(GOCMD) get
+# Release specific
+VERSION=v0.3.0
+CODENAME='Metadata Pride'
 
-BUILD_DIR=build/
+# Build parameters
+BUILDDIR=build/
+BINARYNAME=goca
+BUILDTIME=`date +%FT%T%z`
+BUILDHASH=`git log -1 --pretty=format:"%h"`
+LDFLAGS="\
+	-s \
+	-w \
+	-X \"main.Version=${VERSION}\" \
+	-X \"main.Codename=${CODENAME}\" \
+	-X \"main.BuildHash=${BUILDHASH}\" \
+	-X \"main.BuildTime=${BUILDTIME}\" \
+"
 
-APPNAME=GOCA
-BINARY_NAME=goca
-BINARY_UNIX=$(BINARY_NAME)_unix
+ARGS?=
 
-SRC=$(wildcard goca/*.go)
+SRC=$(wildcard *.go)
 
-all: test build
+all: run build
 
 build: $(SRC)
-	$(GOBUILD) $(LDFLAGS) -o $(BUILD_DIR)$(BINARY_NAME) -v $^
+	go build -ldflags=$(LDFLAGS) -o ${BUILDDIR}/$(BINARYNAME)_${VERSION} *.go
 
-test:
-	GOCA_TEST_SERVER="https://test.goca.io" $(GOTEST) -v -race -cover -count 1 ./...
+run: $(SRC)
+	go run -ldflags=$(LDFLAGS) *.go $(ARGS)
 
-test-local:
-	GOCA_TEST_SERVER="http://localhost:5000" $(GOTEST) -v -race -cover -count 1 ./...
+# test:
+# 	GOCA_TEST_SERVER="https://test.goca.io" $(GOTEST) -v -race -cover -count 1 ./...
 
-clean: 
-	$(GOCLEAN)
-	rm -rf $(BUILD_DIR)
+# test-local:
+# 	GOCA_TEST_SERVER="http://localhost:5000" $(GOTEST) -v -race -cover -count 1 ./...
 
-deps:
-	$(GOGET) -t -v ./...
+# clean: 
+# 	$(GOCLEAN)
+# 	rm -rf $(BUILDDIR)
 
-# Cross compilation
-build-linux: $(SRC)
-	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 $(GOBUILD) -o $(BINARY_UNIX) -v $^
+# deps:
+# 	$(GOMOD) tidy
+# 	$(GOGET) -t -v ./...
 
-.PHONY: all build test clean run deps build-linux
+# build-linux: $(SRC)
+# 	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 $(GOBUILD) ${LDFLAGS} -o $(BINARYNAME)_unix -v $^
+
+.PHONY: all run build 
