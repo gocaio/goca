@@ -1,10 +1,17 @@
-FROM golang:alpine
+ARG GOOS=linux
+ARG GOARCH=amd64
 
-RUN apk add gcc git musl-dev && go get -u -v github.com/gocaio/goca
+FROM golang:latest AS builder
+ADD . /goca/
+WORKDIR /goca/
+ENV GOOS=${GOOS}
+ENV GOARCH=${GOARCH}
+RUN go mod download
+RUN CGO_ENABLED=0 GOOS=${GOOS} GOARCH=${GOARCH} go build -a -o /goca .
 
-WORKDIR /go/src/github.com/gocaio/goca
-
-ENV GO111MODULE on
-RUN go get ./...
-
-ENTRYPOINT ["go","run","goca/goca.go"]
+# final stage
+FROM alpine:latest
+RUN apk --no-cache add ca-certificates
+COPY --from=builder /goca ./
+RUN chmod +x ./goca
+ENTRYPOINT ["./goca"]
