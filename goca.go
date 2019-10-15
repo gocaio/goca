@@ -16,6 +16,15 @@
 
 package main
 
+import (
+	"os"
+	"path"
+)
+
+const (
+	gocaFolder = ".goca"
+)
+
 var (
 	// Version is the semver setted with ldflags
 	Version string
@@ -31,6 +40,7 @@ var (
 	userAgent       = "Goca Metadata Scanner " + Version
 	baseFolder      string
 	selectedPlugins = []string{"all"}
+	threads         = 1
 
 	// Database flags
 	databaseFile = "goca.db"
@@ -47,15 +57,17 @@ var (
 
 func init() {
 	// Generate the base goca folder depending on the OS
-	baseFolder = "~/.goca/"
-	// baseFolder = "C:/goca"
+	uh, err := os.UserHomeDir()
+	logFatal(err)
+	baseFolder = path.Join(uh, gocaFolder)
 
 	// The root command shows the help and the banner
 	rootCmd.AddCommand(versionCmd)
-	rootCmd.PersistentFlags().StringVarP(&loglevel, "loglevel", "l", loglevel, "Log verbosity [debug|info|warning|error]")
-	rootCmd.PersistentFlags().StringVarP(&userAgent, "userAgent", "u", userAgent, "The UserAgent to set on the request headers")
-	rootCmd.PersistentFlags().StringVarP(&baseFolder, "baseFolder", "b", baseFolder, "Goca's base folder for conf and downloads")
-	rootCmd.PersistentFlags().StringArrayVarP(&selectedPlugins, "plugins", "p", selectedPlugins, "Plugins to run through selected command")
+	rootCmd.PersistentFlags().StringVarP(&loglevel, "loglevel", "L", loglevel, "Log verbosity [debug|info|warning|error]")
+	rootCmd.PersistentFlags().StringVarP(&userAgent, "userAgent", "U", userAgent, "The UserAgent to set on the request headers")
+	rootCmd.PersistentFlags().StringVarP(&baseFolder, "baseFolder", "B", baseFolder, "Goca's base folder for conf and downloads")
+	rootCmd.PersistentFlags().IntVarP(&threads, "threads", "T", threads, "The number of threads used for the file download")
+	rootCmd.PersistentFlags().StringArrayVarP(&selectedPlugins, "plugins", "P", selectedPlugins, "Plugins to run through selected command")
 
 	// Database command and its specific flags
 	rootCmd.AddCommand(databaseCmd)
@@ -67,24 +79,33 @@ func init() {
 	scrapperCmd.Flags().StringVarP(&domainToScrap, "domain", "d", domainToScrap, "Tells Goca the domain to scrap")
 	scrapperCmd.Flags().IntVarP(&scrapperThreshold, "threshold", "t", scrapperThreshold, "This makes Goca wait [t] seconds between URLs")
 	scrapperCmd.Flags().IntVarP(&scrapperDepth, "depth", "D", scrapperDepth, "The depth of the scrapping")
-	scrapperCmd.Flags().IntP("threads", "T", 3, "The number of threads used for the file download")
 	scrapperCmd.Flags().BoolP("save", "s", false, "Save the downloaded files to disk")
 	scrapperCmd.MarkFlagRequired("domain")
 
 	// Crawler command and its specific flags
 	rootCmd.AddCommand(dorkerCmd)
-	dorkerCmd.Flags().StringVarP(&termToDork, "term", "t", termToDork, "Term for the dork query")
-	dorkerCmd.Flags().IntVarP(&maxPagesToDork, "pages", "p", maxPagesToDork, "Maximum search engine result pages to scrap")
-	dorkerCmd.Flags().IntVarP(&scrapperThreshold, "threshold", "T", scrapperThreshold, "This makes Goca wait [t] seconds between URLs")
+	dorkerCmd.Flags().StringVarP(&termToDork, "term", "q", termToDork, "Term for the dork query")
+	dorkerCmd.Flags().IntVarP(&maxPagesToDork, "pages", "p", maxPagesToDork, "Maximum search engine result pages to dork")
+	dorkerCmd.Flags().IntVarP(&scrapperThreshold, "threshold", "t", scrapperThreshold, "This makes Goca wait [t] seconds between URLs")
+	dorkerCmd.Flags().StringArrayP("engines", "e", []string{"all"}, "Engines to drok through")
+	dorkerCmd.Flags().BoolP("listEngines", "l", false, "List the avaliable engines")
 	dorkerCmd.Flags().BoolP("save", "s", false, "Save the downloaded files to disk")
-	dorkerCmd.MarkFlagRequired("term")
+	// dorkerCmd.MarkFlagRequired("term")
 
 	// Plugin command and its specific flags
 	rootCmd.AddCommand(pluginCmd)
-	pluginCmd.Flags().BoolP("list", "L", false, "List avaliable plugins")
+	pluginCmd.Flags().BoolP("list", "l", false, "List avaliable plugins")
 
 }
 
 func main() {
+	// Ensure Goca directory is created, otherwise create it
+	if _, err := os.Stat(baseFolder); os.IsNotExist(err) {
+		os.MkdirAll(baseFolder, os.ModePerm)
+	}
+
+	targetFolder = path.Join(baseFolder, newULID())
+
+	// Run Goca
 	execute()
 }

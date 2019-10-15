@@ -16,5 +16,43 @@
 
 package main
 
+import (
+	"fmt"
+	"net/url"
+
+	"github.com/gocaio/goca/dork"
+)
+
 // core.dorker.bing.go implements the bing engine specific dorker structure and
 // functionality.
+
+const bingEngineURL = "https://www.bing.com/search?q=%s&first=%d0"
+
+// Bing execute dorks against Bing engine
+func (d *Dorker) Bing(plugDork *dork.Dork) (results []string) {
+	re := `<h2><a href="(.*?)" h=`
+	escapedDork := url.QueryEscape(plugDork.Query)
+
+	for i := 0; i < d.pages; i++ {
+		u := fmt.Sprintf(bingEngineURL, escapedDork, i)
+
+		wbuf, err := d.get(u)
+		if err != nil {
+			logError(fmt.Sprintf("[!] (%s): %s", u, err.Error()))
+			continue
+		}
+
+		parsedData := parser(wbuf, re)
+		for j := range parsedData {
+			urlUnescaped, err := url.QueryUnescape(parsedData[j][1])
+			if err != nil {
+				logError(fmt.Sprintf("[!] %s", err.Error()))
+				continue
+			}
+
+			results = append(results, urlUnescaped)
+		}
+	}
+
+	return
+}

@@ -24,6 +24,8 @@ import (
 	"errors"
 	"io/ioutil"
 	"net/http"
+	"net/url"
+	"strings"
 	// "sync"
 )
 
@@ -69,8 +71,10 @@ func (d *Downloader) Run() (err error) {
 		if err != nil {
 			logError(err)
 		}
-
-		d.resultFiles[mime] = append(d.resultFiles[mime], body)
+		if len(strings.TrimSpace(mime)) != 0 {
+			// Omiting blank mime
+			d.resultFiles[mime] = append(d.resultFiles[mime], body)
+		}
 	}
 
 	return err
@@ -83,8 +87,12 @@ func (d Downloader) Files() map[string][][]byte { return d.resultFiles }
 // = Class helpers =
 // =================
 
-func (d Downloader) get(url string) (body []byte, mime string, err error) {
-	req, err := http.NewRequest("GET", url, nil)
+func (d Downloader) get(u string) (body []byte, mime string, err error) {
+	if _, err = url.Parse(u); err != nil {
+		return
+	}
+
+	req, err := http.NewRequest("GET", u, nil)
 	if err != nil {
 		return body, mime, err
 	}
@@ -112,7 +120,10 @@ func (d Downloader) get(url string) (body []byte, mime string, err error) {
 		return body, mime, err
 	}
 
-	mime = res.Header.Get("Content-Type")
+	mime = sanitizeMime(res.Header.Get("Content-Type"))
+	// What happens if the mime is empty?
+	// Should we use a default value?
+	// Should we omit that file
 
 	return body, mime, err
 }

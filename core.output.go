@@ -16,5 +16,53 @@
 
 package main
 
+import (
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"os"
+	"path"
+	"runtime"
+	"strings"
+
+	"github.com/gocaio/goca/rsrc"
+	jsonc "github.com/nwidger/jsoncolor"
+)
+
 // core.output.go is in charge of generating the result output, this output can
 // be the database, the stdout, a file, etc.
+
+var (
+	targetFolder string
+)
+
+// saveFile save the file in disk
+func saveFile(mime string, data []byte) {
+	if _, err := os.Stat(targetFolder); os.IsNotExist(err) {
+		err = os.MkdirAll(targetFolder, os.ModePerm)
+		logFatal(err)
+	}
+	fname := fmt.Sprintf("%s_%s.%s", mime, newULID(), mimeToExtension[mime])
+	fname = strings.ReplaceAll(fname, "/", "_")
+	fname = strings.ReplaceAll(fname, "\\", "_")
+
+	err := ioutil.WriteFile(path.Join(targetFolder, path.Clean(fname)), data, 0644)
+	logFatal(err)
+}
+
+func processOutput(out *rsrc.Output) {
+	var data []byte
+	var err error
+
+	if runtime.GOOS == "windows" {
+		data, err = json.MarshalIndent(out, "", "\t")
+	} else {
+		data, err = jsonc.MarshalIndent(out, "", "\t")
+	}
+
+	if err != nil {
+		logError(err)
+	} else {
+		fmt.Println(string(data))
+	}
+}

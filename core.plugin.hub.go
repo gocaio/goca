@@ -16,7 +16,7 @@
 
 package main
 
-// core.plugin.go loads plugins in pluginHub
+// core.plugin.hub.go loads plugins in pluginHub
 
 import (
 	"github.com/gocaio/goca/plugin"
@@ -40,8 +40,6 @@ func (p *PluginHub) Init() {
 	for k, v := range plgs {
 		logDebug("Loading plugin for " + k)
 		p.plugins[k] = v
-		// logDebug(k)
-		// v.Run()
 	}
 }
 
@@ -58,14 +56,13 @@ func (p *PluginHub) InitWith(plugins []string) {
 				if k == sp {
 					logDebug("Loading plugin for " + k)
 					p.plugins[k] = v
-					// logDebug(k)
-					// v.Run()
 				}
 			}
 		}
 	}
 }
 
+// Lookup helps to get a plugin from PluginHub according to its mime type
 func (p *PluginHub) Lookup(mime string) (plug *plugin.Plugin) {
 	plug = p.plugins[mime]
 	return

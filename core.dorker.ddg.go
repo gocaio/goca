@@ -16,5 +16,16 @@
 
 package main
 
+import (
+	"github.com/gocaio/goca/dork"
+)
+
 // core.dorker.ddg.go implements the ddg engine specific dorker structure and
 // functionality.
+
+const ddgEngineURL = ""
+
+// DDG execute dorks against DDG engine
+func (d *Dorker) DDG(plugDork *dork.Dork) (results []string) {
+	return
+}

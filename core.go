@@ -18,6 +18,8 @@ package main
 
 import (
 	"time"
+
+	"github.com/gocaio/goca/dork"
 )
 
 // core.go implements all the core behavior stuff related to Goca, such as
@@ -25,15 +27,16 @@ import (
 
 // Goca is the core structure from where all the modes inhere
 type Goca struct {
-	UserAgent  string    // User-Agent to send on the requests
-	BaseFolder string    // Base Goca folder where the configuration files/project dbs/tmp files are stored
-	DB         *struct{} // FIXME: This is only a dev placeholder (this should be a pointer to the initialized database)
-	Domain     string    // The domain to scrap for available documents
-	Threshold  int       // Threshold for limiting the scrap speed
-	Depth      int       // Depth of the links to follow while scrapping
-	Term       string    // Dorking term
-	Pages      int       // Dorking result pages to scrap
-	Stats      Stats     // Global stats about the current scan
+	UserAgent  string        // User-Agent to send on the requests
+	BaseFolder string        // Base Goca folder where the configuration files/project dbs/tmp files are stored
+	DB         *struct{}     // FIXME: This is only a dev placeholder (this should be a pointer to the initialized database)
+	Domain     string        // The domain to scrap for available documents
+	Threshold  int           // Threshold for limiting the scrap speed
+	Depth      int           // Depth of the links to follow while scrapping
+	Term       string        // Dorking term
+	Pages      int           // Dorking result pages to scrap
+	Engines    []dork.Engine // Allowed engines to dork
+	Stats      Stats         // Global stats about the current scan
 }
 
 // Stats defines a current scann statistics object

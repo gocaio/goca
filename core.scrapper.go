@@ -97,4 +97,3 @@ func (s *Scrapper) Links() []string { return s.files }
 // =================
 // = Class helpers =
 // =================
-func (s *Scrapper) foo() {}

@@ -22,9 +22,11 @@ import (
 	"bytes"
 	"fmt"
 	"math/rand"
+	"net/url"
 	"os"
 	"time"
 
+	"github.com/oklog/ulid/v2"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
@@ -47,8 +49,17 @@ func uniqueLinks(elements []string) (result []string) {
 	return result
 }
 
-func validURL(url string) bool {
-	return len(url) > 3
+func validURL(u string) bool {
+	if _, err := url.Parse(u); err != nil {
+		return false
+	}
+	return true
+}
+
+func newULID() string {
+	t := time.Now()
+	entropy := ulid.Monotonic(rand.New(rand.NewSource(t.UnixNano())), 0)
+	return ulid.MustNew(ulid.Timestamp(t), entropy).String()
 }
 
 // ===========

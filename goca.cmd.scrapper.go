@@ -57,6 +57,9 @@ func scrapperCmdFunc(cmd *cobra.Command, args []string) {
 		return
 	}
 
+	saveFiles, err := cmd.Flags().GetBool("save")
+	logFatal(err)
+
 	// Initializing pluginHub with selected plugins
 	plugins, err := cmd.Flags().GetStringArray("plugins")
 	pluginHub.InitWith(plugins)
@@ -69,8 +72,6 @@ func scrapperCmdFunc(cmd *cobra.Command, args []string) {
 		Depth:     dp,
 		// BaseFolder: "",
 		// DB:         "",
-		// Term:       "",
-		// Pages:      "",
 		Stats: Stats{
 			Start:         time.Now(),
 			MimeTypeCount: make(map[string]int),
@@ -112,9 +113,13 @@ func scrapperCmdFunc(cmd *cobra.Command, args []string) {
 
 	for k, v := range files {
 		logDebug(fmt.Sprintf("Found %d files of type %s", len(v), k))
-		g.Stats.MimeTypeCount[sanitizeMime(k)] = len(v)
+		g.Stats.MimeTypeCount[k] = len(v)
 		for i := range v {
 			mq.Push(k, v[i])
+			if saveFiles {
+				// TODO: Review how files are saved in disk, folder structure and so
+				go saveFile(k, v[i])
+			}
 		}
 	}
 

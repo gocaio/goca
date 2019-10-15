@@ -1,6 +1,7 @@
 package plugin
 
 import (
+	"github.com/gocaio/goca/dork"
 	"github.com/gocaio/goca/rsrc"
 )
 
@@ -14,7 +15,8 @@ type Plugin struct {
 	mimetype    string                    // The mimetype to subscribe to in the queue
 	Name        string                    // A small plugin name for informational purposes
 	Description string                    // A small plugin description for informational purposes
-	Check       func() bool               // The magic bytes checker for the plugin
+	Dorks       []*dork.Dork              // A list of dorks to catch files
+	Check       func([]byte) bool         // The magic bytes checker for the plugin
 	Run         func([]byte) *rsrc.Output // The analysis function
 }
 

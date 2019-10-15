@@ -19,6 +19,6 @@ package main
 // core.plugin.go loads all the plugins and executes his init()
 
 import (
-	_ "github.com/gocaio/goca/plugins/dummy"
-	_ "github.com/gocaio/goca/plugins/dummy2"
+	_ "github.com/gocaio/plugins/dummy"
+	//_ "github.com/gocaio/goca/plugins/dummy2"
 )

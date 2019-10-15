@@ -16,5 +16,43 @@
 
 package main
 
+import (
+	"fmt"
+	"net/url"
+
+	"github.com/gocaio/goca/dork"
+)
+
 // core.dorker.google.go implements the google engine specific dorker structure
 // and functionality.
+
+const googleEngineURL = "https://www.google.com/search?q=%s&start=%d0"
+
+// Google execute dorks against Google engine
+func (d *Dorker) Google(plugDork *dork.Dork) (results []string) {
+	re := `"><a href="/url\?q=(.*?)&amp;sa=U&amp;`
+	escapedDork := url.QueryEscape(plugDork.Query)
+
+	for i := 0; i < d.pages; i++ {
+		u := fmt.Sprintf(googleEngineURL, escapedDork, i)
+
+		wbuf, err := d.get(u)
+		if err != nil {
+			logError(fmt.Sprintf("[!] (%s): %s", u, err.Error()))
+			continue
+		}
+
+		parsedData := parser(wbuf, re)
+		for j := range parsedData {
+			urlUnescaped, err := url.QueryUnescape(parsedData[j][1])
+			if err != nil {
+				logError(fmt.Sprintf("[!] %s", err.Error()))
+				continue
+			}
+
+			results = append(results, urlUnescaped)
+		}
+	}
+
+	return
+}
