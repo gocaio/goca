@@ -42,7 +42,7 @@ type Scrapper struct {
 }
 
 // NewScrapper initializes the scrapper
-func NewScrapper(goca *Goca) *Scrapper {
+func NewScrapper(goca *Goca, threads int) *Scrapper {
 	return &Scrapper{
 		goca: goca,
 	}

@@ -21,15 +21,21 @@ import (
 
 	"github.com/gocaio/goca/plugin"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 // goca.cmd.plugin.go is the cobra command selector entrypoint for the plugin.
 
 func pluginCmdFunc(cmd *cobra.Command, args []string) {
 	setLogLevel(cmd)
+	var err error
 
-	list, err := cmd.Flags().GetBool("list")
-	logFatal(err)
+	// Command arguments
+	list := viper.GetBool("plugin.list")
+	if !list {
+		list, err = cmd.Flags().GetBool("list")
+		logFatal(err)
+	}
 
 	if list {
 		plgs := plugin.GetPlugins()

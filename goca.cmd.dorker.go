@@ -24,11 +24,13 @@ import (
 
 	"github.com/gocaio/goca/dork"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 func dorkerCmdFunc(cmd *cobra.Command, args []string) {
 	setLogLevel(cmd)
 
+	// One shot arguments
 	ld, err := cmd.Flags().GetBool("listEngines")
 	logFatal(err)
 	if ld {
@@ -36,57 +38,59 @@ func dorkerCmdFunc(cmd *cobra.Command, args []string) {
 		return
 	}
 
-	ua, err := cmd.Flags().GetString("userAgent")
-	logFatal(err)
-
-	t, err := cmd.Flags().GetString("term")
-	logFatal(err)
-
-	pg, err := cmd.Flags().GetInt("pages")
-	logFatal(err)
-	if pg < 1 {
-		logError("pages can't be less than 0")
-		return
+	// Global arguments
+	userAgent := viper.GetString("global.useragent")
+	if userAgent == "" {
+		userAgent, err = cmd.Flags().GetString("userAgent")
+		logFatal(err)
 	}
 
-	th, err := cmd.Flags().GetInt("threshold")
-	logFatal(err)
-	if th < 0 {
-		logError("threshold can't be less than 0")
-		return
-	}
-
-	threads, err := cmd.Flags().GetInt("threads")
-	logFatal(err)
+	threads := viper.GetInt("global.threads")
 	if threads < 1 {
 		logError("The number of threads to run can't be less than 1")
 		return
 	}
 
-	e, err := cmd.Flags().GetStringArray("engines")
-	logFatal(err)
-
-	saveFiles, err := cmd.Flags().GetBool("save")
-	logFatal(err)
-
 	// Initializing pluginHub with selected plugins
-	plugins, err := cmd.Flags().GetStringArray("plugins")
-	pluginHub.InitWith(plugins)
-
-	// Setup Goca instance
-	g := &Goca{
-		UserAgent: ua,
-		Threshold: th,
-		// BaseFolder: "",
-		// DB:         "",
-		Term:    t,
-		Pages:   pg,
-		Engines: getEngines(e),
-		Stats: Stats{
-			Start:         time.Now(),
-			MimeTypeCount: make(map[string]int),
-		},
+	plugins := viper.GetStringSlice("global.plugins")
+	if len(plugins) == 0 || (len(plugins) == 1 && plugins[0] == "false") {
+		plugins, err = cmd.Flags().GetStringArray("plugins")
+		logFatal(err)
 	}
+
+	// Command arguments
+	term := viper.GetString("dorker.term")
+	if term == "" {
+		term, err = cmd.Flags().GetString("term")
+		logFatal(err)
+		if term == "" {
+			logError("Goca needs a term to dork")
+			return
+		}
+	}
+
+	maxPages := viper.GetInt("dorker.maxpages")
+	if maxPages < 1 {
+		logError("pages can't be less than 0")
+		return
+	}
+
+	threshold := viper.GetInt("dorker.threshold")
+	if threshold < 0 {
+		logError("threshold can't be less than 0")
+		return
+	}
+
+	engines := viper.GetStringSlice("dorker.engines")
+	if len(engines) == 0 || (len(engines) == 1 && engines[0] == "false") {
+		engines, err = cmd.Flags().GetStringArray("engines")
+		logFatal(err)
+	}
+
+	saveFiles := viper.GetBool("dorker.save")
+
+	// Initialize pluginhub
+	pluginHub.InitWith(plugins)
 
 	// Setup the task manager instance
 	mq := NewGotam()
@@ -94,6 +98,19 @@ func dorkerCmdFunc(cmd *cobra.Command, args []string) {
 	// Setup the plugin hub instance
 	plgHub := new(PluginHub)
 	plgHub.Init()
+
+	// Setup Goca instance
+	g := &Goca{
+		UserAgent: userAgent,
+		Threshold: threshold,
+		Term:      term,
+		Pages:     maxPages,
+		Engines:   getEngines(engines),
+		Stats: Stats{
+			Start:         time.Now(),
+			MimeTypeCount: make(map[string]int),
+		},
+	}
 
 	dorker := NewDorker(g)
 	dorker.AddDorksFromPluginHub(plgHub)
@@ -182,4 +199,9 @@ func getEngines(el []string) (del []dork.Engine) {
 	}
 	logInfo(fmt.Sprintf("Selected %v engines", sen))
 	return
+}
+
+func strInStrMap(a string, b map[string]string) (ok bool) {
+	_, ok = b[a]
+	return ok
 }

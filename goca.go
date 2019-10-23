@@ -17,8 +17,11 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"path"
+
+	"github.com/spf13/viper"
 )
 
 const (
@@ -55,11 +58,32 @@ var (
 	maxPagesToDork = 1
 )
 
-func init() {
+func main() {
+	initializeBaseFolders()
+
 	// Generate the base goca folder depending on the OS
 	uh, err := os.UserHomeDir()
 	logFatal(err)
 	baseFolder = path.Join(uh, gocaFolder)
+
+	viper.SetConfigName("gocacfg")  // name of config file (without extension)
+	viper.AddConfigPath(baseFolder) // call multiple times to add many search paths
+	viper.AddConfigPath(".")        // optionally look for config in the working directory
+	viper.SetConfigType("toml")
+
+	if err := viper.ReadInConfig(); err != nil { // Find and read the config file
+		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
+			// Config file not found; ignore error if desired
+			fmt.Println("Goca configuration file not found")
+			logError("Goca configuration file not found")
+		} else {
+			// Config file was found but another error was produced
+			fmt.Println("An error occurred while reading Goca configuration file")
+			logError("An error occurred while reading Goca configuration file")
+		}
+	}
+
+	logInfo(fmt.Sprintf("Using %s as configuration file", viper.ConfigFileUsed()))
 
 	// The root command shows the help and the banner
 	rootCmd.AddCommand(versionCmd)
@@ -69,10 +93,20 @@ func init() {
 	rootCmd.PersistentFlags().IntVarP(&threads, "threads", "T", threads, "The number of threads used for the file download")
 	rootCmd.PersistentFlags().StringArrayVarP(&selectedPlugins, "plugins", "P", selectedPlugins, "Plugins to run through selected command")
 
+	// Viper configuration flags for root command
+	viper.BindPFlag("global.basefolder", rootCmd.PersistentFlags().Lookup("baseFolder"))
+	viper.BindPFlag("global.useragent", rootCmd.PersistentFlags().Lookup("userAgent"))
+	viper.BindPFlag("global.plugins", rootCmd.PersistentFlags().Lookup("plugins"))
+	viper.BindPFlag("global.threads", rootCmd.PersistentFlags().Lookup("threads"))
+	viper.BindPFlag("global.loglevel", rootCmd.PersistentFlags().Lookup("loglevel"))
+
 	// Database command and its specific flags
 	rootCmd.AddCommand(databaseCmd)
 	databaseCmd.Flags().StringVarP(&databaseFile, "file", "f", databaseFile, "Database file")
-	databaseCmd.MarkFlagRequired("file")
+	// databaseCmd.MarkFlagRequired("database.file") // This will be checked in the command itself
+
+	// Viper configuration flags for database command
+	viper.BindPFlag("databaseFile", databaseCmd.Flags().Lookup("file"))
 
 	// Scrapper command and its specific flags
 	rootCmd.AddCommand(scrapperCmd)
@@ -80,7 +114,13 @@ func init() {
 	scrapperCmd.Flags().IntVarP(&scrapperThreshold, "threshold", "t", scrapperThreshold, "This makes Goca wait [t] seconds between URLs")
 	scrapperCmd.Flags().IntVarP(&scrapperDepth, "depth", "D", scrapperDepth, "The depth of the scrapping")
 	scrapperCmd.Flags().BoolP("save", "s", false, "Save the downloaded files to disk")
-	scrapperCmd.MarkFlagRequired("domain")
+	//scrapperCmd.MarkFlagRequired("domain") // This will be checked in the command itself
+
+	// Viper configuration flags for scrapper command
+	viper.BindPFlag("scrapper.domain", scrapperCmd.Flags().Lookup("domain"))
+	viper.BindPFlag("scrapper.threshold", scrapperCmd.Flags().Lookup("threshold"))
+	viper.BindPFlag("scrapper.depth", scrapperCmd.Flags().Lookup("depth"))
+	viper.BindPFlag("scrapper.save", scrapperCmd.Flags().Lookup("save"))
 
 	// Crawler command and its specific flags
 	rootCmd.AddCommand(dorkerCmd)
@@ -90,22 +130,30 @@ func init() {
 	dorkerCmd.Flags().StringArrayP("engines", "e", []string{"all"}, "Engines to drok through")
 	dorkerCmd.Flags().BoolP("listEngines", "l", false, "List the avaliable engines")
 	dorkerCmd.Flags().BoolP("save", "s", false, "Save the downloaded files to disk")
-	// dorkerCmd.MarkFlagRequired("term")
+	// dorkerCmd.MarkFlagRequired("term") // This will be checked in the command itself
+
+	// Viper configuration flags for dorker command
+	viper.BindPFlag("dorker.term", dorkerCmd.Flags().Lookup("term"))
+	viper.BindPFlag("dorker.maxpages", dorkerCmd.Flags().Lookup("pages"))
+	viper.BindPFlag("dorker.threshold", dorkerCmd.Flags().Lookup("threshold"))
+	viper.BindPFlag("dorker.engines", dorkerCmd.Flags().Lookup("engines"))
+	viper.BindPFlag("dorker.save", dorkerCmd.Flags().Lookup("save"))
 
 	// Plugin command and its specific flags
 	rootCmd.AddCommand(pluginCmd)
 	pluginCmd.Flags().BoolP("list", "l", false, "List avaliable plugins")
 
+	// Viper configuration flags for plugin command
+	viper.BindPFlag("plugin.list", pluginCmd.Flags().Lookup("list"))
+
+	// Run Goca
+	execute()
 }
 
-func main() {
+func initializeBaseFolders() {
 	// Ensure Goca directory is created, otherwise create it
 	if _, err := os.Stat(baseFolder); os.IsNotExist(err) {
 		os.MkdirAll(baseFolder, os.ModePerm)
 	}
-
 	targetFolder = path.Join(baseFolder, newULID())
-
-	// Run Goca
-	execute()
 }

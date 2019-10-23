@@ -25,51 +25,67 @@ import (
 	// "github.com/gocaio/goca/plugin"
 
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 func scrapperCmdFunc(cmd *cobra.Command, args []string) {
 	setLogLevel(cmd)
+	var err error
 
-	ua, err := cmd.Flags().GetString("userAgent")
-	logFatal(err)
-
-	dm, err := cmd.Flags().GetString("domain")
-	logFatal(err)
-
-	th, err := cmd.Flags().GetInt("threshold")
-	logFatal(err)
-	if th < 0 {
-		logError("threshold can't be less than 0")
-		return
+	// Global arguments
+	userAgent := viper.GetString("global.useragent")
+	if userAgent == "" {
+		userAgent, err = cmd.Flags().GetString("userAgent")
+		logFatal(err)
 	}
 
-	dp, err := cmd.Flags().GetInt("depth")
-	logFatal(err)
-	if dp < 0 {
-		logError("depth can't be less than 0")
-		return
-	}
-
-	threads, err := cmd.Flags().GetInt("threads")
-	logFatal(err)
+	threads := viper.GetInt("global.threads")
 	if threads < 1 {
 		logError("The number of threads to run can't be less than 1")
 		return
 	}
 
-	saveFiles, err := cmd.Flags().GetBool("save")
-	logFatal(err)
+	// Initializing pluginHub with selected plugins
+	plugins := viper.GetStringSlice("global.plugins")
+	if len(plugins) == 0 || (len(plugins) == 1 && plugins[0] == "false") {
+		plugins, err = cmd.Flags().GetStringArray("plugins")
+		logFatal(err)
+	}
 
 	// Initializing pluginHub with selected plugins
-	plugins, err := cmd.Flags().GetStringArray("plugins")
+	domain := viper.GetString("scrapper.domain")
+	if domain == "" {
+		domain, err = cmd.Flags().GetString("domain")
+		logFatal(err)
+		if domain == "" {
+			logError("Goca needs a domain to scrap")
+			return
+		}
+	}
+
+	threshold := viper.GetInt("scrapper.threshold")
+	if threshold < 0 {
+		logError("threshold can't be less than 0")
+		return
+	}
+
+	depth := viper.GetInt("scrapper.depth")
+	if depth < 1 {
+		logError("pages can't be less than 0")
+		return
+	}
+
+	saveFiles := viper.GetBool("scrapper.save")
+
+	// Initializing pluginHub with selected plugins
 	pluginHub.InitWith(plugins)
 
 	// Setup Goca instance
 	g := &Goca{
-		UserAgent: ua,
-		Domain:    dm,
-		Threshold: th,
-		Depth:     dp,
+		UserAgent: userAgent,
+		Domain:    domain,
+		Threshold: threshold,
+		Depth:     depth,
 		// BaseFolder: "",
 		// DB:         "",
 		Stats: Stats{
@@ -86,7 +102,7 @@ func scrapperCmdFunc(cmd *cobra.Command, args []string) {
 	plgHub.Init()
 
 	// Setup the scrapper instance
-	s := NewScrapper(g)
+	s := NewScrapper(g, threads)
 
 	err = s.Run()
 	logFatal(err)
