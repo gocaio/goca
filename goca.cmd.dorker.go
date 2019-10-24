@@ -93,8 +93,6 @@ func dorkerCmdFunc(cmd *cobra.Command, args []string) {
 		userAgent = pickupRandomUA()
 	}
 
-	fmt.Println(userAgent)
-
 	// Initialize pluginhub
 	pluginHub.InitWith(plugins)
 
