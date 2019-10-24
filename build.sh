@@ -1,26 +1,38 @@
 #!/usr/bin/env bash
 
-package=goca/goca.go
 package_name=goca
-
-buildDate=$(date -R)
-gitTag=$(git describe --tags --abbrev=0)
-gitCommit=$(git rev-parse HEAD)
 build_dir=build/
-ldflags="-X \"main.buildDate=$buildDate\" \
--X \"main.gitTag=$gitTag\" \
--X \"main.gitCommit=$gitCommit\" \
--s \
--w"
+
+# Release specific
+version=v0.3.0
+codename='Metadata Pride'
+
+# Build parameters
+buildTime=`date +%FT%T%z`
+buildHash=`git log -1 --pretty=format:"%h"`
+ldflags="\
+	-s \
+	-w \
+	-X \"main.Version=${version}\" \
+	-X \"main.Codename=${codename}\" \
+	-X \"main.BuildHash=${buildHash}\" \
+	-X \"main.BuildTime=${buildTime}\" \
+"
+
+package=*.go
 
 platforms=("windows/amd64" "windows/386" "darwin/amd64" "linux/amd64" "linux/386" "linux/arm64" "linux/arm")
+
 go mod download
+
 for platform in "${platforms[@]}"
 do
     platform_split=(${platform//\// })
     GOOS=${platform_split[0]}
     GOARCH=${platform_split[1]}
+
     output_name=$package_name'-'$GOOS'-'$GOARCH
+
     if [ $GOOS = "windows" ]; then
         output_name+='.exe'
     fi

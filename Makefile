@@ -28,21 +28,13 @@ build: $(SRC)
 run: $(SRC)
 	go run -ldflags=$(LDFLAGS) *.go $(ARGS)
 
-# test:
+test:
 # 	GOCA_TEST_SERVER="https://test.goca.io" $(GOTEST) -v -race -cover -count 1 ./...
 
 # test-local:
 # 	GOCA_TEST_SERVER="http://localhost:5000" $(GOTEST) -v -race -cover -count 1 ./...
 
-# clean: 
-# 	$(GOCLEAN)
-# 	rm -rf $(BUILDDIR)
+clean: 
+	rm -rf $(BUILDDIR)
 
-# deps:
-# 	$(GOMOD) tidy
-# 	$(GOGET) -t -v ./...
-
-# build-linux: $(SRC)
-# 	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 $(GOBUILD) ${LDFLAGS} -o $(BINARYNAME)_unix -v $^
-
-.PHONY: all run build 
+.PHONY: all run build clean test
