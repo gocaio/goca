@@ -89,6 +89,12 @@ func dorkerCmdFunc(cmd *cobra.Command, args []string) {
 
 	saveFiles := viper.GetBool("dorker.save")
 
+	if userAgent == "random" {
+		userAgent = pickupRandomUA()
+	}
+
+	fmt.Println(userAgent)
+
 	// Initialize pluginhub
 	pluginHub.InitWith(plugins)
 

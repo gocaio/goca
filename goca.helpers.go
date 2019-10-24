@@ -34,6 +34,12 @@ import (
 // ===========
 // = helpers =
 // ===========
+func pickupRandomUA() string {
+	rand.Seed(time.Now().Unix())
+	n := rand.Intn(len(userAgentList) - 1)
+	return userAgentList[n]
+}
+
 func uniqueLinks(elements []string) (result []string) {
 	encountered := map[string]bool{}
 
