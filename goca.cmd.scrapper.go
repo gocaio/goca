@@ -77,6 +77,10 @@ func scrapperCmdFunc(cmd *cobra.Command, args []string) {
 
 	saveFiles := viper.GetBool("scrapper.save")
 
+	if userAgent == "random" {
+		userAgent = pickupRandomUA()
+	}
+
 	// Initializing pluginHub with selected plugins
 	pluginHub.InitWith(plugins)
 
