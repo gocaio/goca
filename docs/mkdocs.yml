@@ -1,0 +1,66 @@
+site_name: Goca
+site_description: Goca Documentation
+site_author: Goca.io
+site_url: https://docs.goca.io
+dev_addr: 0.0.0.0:8000
+
+repo_name: 'GitHub'
+repo_url: 'https://github.com/gocaio/goca'
+
+docs_dir: 'content'
+
+# https://squidfunk.github.io/mkdocs-material/
+theme:
+  name: 'material'
+  language: en
+  include_sidebar: true
+  favicon: assets/img/goca.icon.png
+  logo: assets/img/goca.icon.png
+  feature:
+    tabs: false
+  palette:
+    primary: 'black'
+    accent: 'red'
+  i18n:
+    prev: 'Previous'
+    next: 'Next'
+
+extra:
+  social:
+    - type: 'github'
+      link: 'https://github.com/gocaio/goca'
+    - type: 'twitter'
+      link: 'https://twitter.com/Goca_io'
+    - type: 'telegram'
+      link: 'https://t.me/GocaIO'
+
+copyright: "Copyright &copy; 2019-2019 Goca"
+
+plugins:
+  - search
+
+markdown_extensions:
+  - attr_list
+  - admonition
+  - footnotes
+  - pymdownx.details
+  - pymdownx.inlinehilite
+  - pymdownx.highlight:
+      use_pygments: true # hljs is used instead of pygment for TOML highlighting support
+  - pymdownx.smartsymbols
+  - pymdownx.superfences
+  - pymdownx.tasklist
+  - pymdownx.snippets:
+      check_paths: true
+#  - markdown_include.include:
+#      base_path: content/includes/
+#      encoding: utf-8
+  - toc:
+      permalink: true
+
+# Page tree
+nav:
+  - 'Welcome': 'index.md'
+  - 'Getting Started':
+    - 'Quick Start': 'getting-started/quick-start.md'
+    - 'Install Goca': 'getting-started/install-goca.md'
