@@ -1,6 +1,6 @@
 # Quick Start
 
-GOCA&copy; works based in commands, some of them are used for proyect management like `database`, others gives information about GOCA&copy; configuration and finaly there are commandas to perform OSINT actions such as `dorker` and `scrapper`.
+Goca works based in commands, some of them are used for proyect management like `database`, others gives information about Goca configuration and finaly there are commandas to perform OSINT actions such as `dorker` and `scrapper`.
 
 A simple dork for the term _Goca_:
 ```shell
@@ -27,4 +27,22 @@ On the other hand, you can scrap a domain to analyze all its public information 
 >$ ./goca scrapper --domain goca.io
 INFO[0000] [Staring the mighty Goca v0.3.0]
 INFO[0000] [Scrapping  goca.io]
+```
+
+In both cases, scrapping and dorking, Goca accepts a plugin list flag so you can select what kind of metadata you want to extract and analyse.
+
+The followinf command will run all plugins configured for `application/pdf` against PDF files.
+```shell
+>$ ./goca dorker --term Goca --plugins application/pdf
+INFO[0000] [Staring the mighty Goca v0.3.0]
+INFO[0000] [Selected all engines]
+INFO[0001] [Found a total of 14 links]
+```
+
+Or, you might want to analyze JPG, DOC and PDF files.
+```shell
+>$ ./goca dorker --term Goca --plugins application/pdf,image/jpeg,application/msword
+INFO[0000] [Staring the mighty Goca v0.3.0]
+INFO[0000] [Selected all engines]
+INFO[0001] [Found a total of 14 links]
 ```
