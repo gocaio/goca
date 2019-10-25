@@ -54,7 +54,7 @@ func dorkerCmdFunc(cmd *cobra.Command, args []string) {
 	// Initializing pluginHub with selected plugins
 	plugins := viper.GetStringSlice("global.plugins")
 	if len(plugins) == 0 || (len(plugins) == 1 && plugins[0] == "false") {
-		plugins, err = cmd.Flags().GetStringArray("plugins")
+		plugins, err = cmd.Flags().GetStringSlice("plugins")
 		logFatal(err)
 	}
 
@@ -83,7 +83,7 @@ func dorkerCmdFunc(cmd *cobra.Command, args []string) {
 
 	engines := viper.GetStringSlice("dorker.engines")
 	if len(engines) == 0 || (len(engines) == 1 && engines[0] == "false") {
-		engines, err = cmd.Flags().GetStringArray("engines")
+		engines, err = cmd.Flags().GetStringSlice("engines")
 		logFatal(err)
 	}
 
@@ -186,7 +186,7 @@ func listEngines() {
 
 func getEngines(el []string) (del []dork.Engine) {
 	if len(el) == 1 && el[0] == "all" {
-		logInfo("Selected all engines")
+		logInfo("Selected engines: all")
 		for e := range dork.EngineList {
 			del = append(del, e)
 		}
@@ -201,7 +201,7 @@ func getEngines(el []string) (del []dork.Engine) {
 			}
 		}
 	}
-	logInfo(fmt.Sprintf("Selected %v engines", sen))
+	logInfo(fmt.Sprintf("Selected engines: %v", sen))
 	return
 }
 

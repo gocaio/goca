@@ -91,7 +91,7 @@ func main() {
 	rootCmd.PersistentFlags().StringVarP(&userAgent, "userAgent", "U", userAgent, "The UserAgent to set on the request headers")
 	rootCmd.PersistentFlags().StringVarP(&baseFolder, "baseFolder", "B", baseFolder, "Goca's base folder for conf and downloads")
 	rootCmd.PersistentFlags().IntVarP(&threads, "threads", "T", threads, "The number of threads used for the file download")
-	rootCmd.PersistentFlags().StringArrayVarP(&selectedPlugins, "plugins", "P", selectedPlugins, "Plugins to run through selected command")
+	rootCmd.PersistentFlags().StringSliceVarP(&selectedPlugins, "plugins", "P", selectedPlugins, "Plugins to run through selected command")
 
 	// Viper configuration flags for root command
 	viper.BindPFlag("global.basefolder", rootCmd.PersistentFlags().Lookup("baseFolder"))
@@ -127,7 +127,7 @@ func main() {
 	dorkerCmd.Flags().StringVarP(&termToDork, "term", "q", termToDork, "Term for the dork query")
 	dorkerCmd.Flags().IntVarP(&maxPagesToDork, "pages", "p", maxPagesToDork, "Maximum search engine result pages to dork")
 	dorkerCmd.Flags().IntVarP(&scrapperThreshold, "threshold", "t", scrapperThreshold, "This makes Goca wait [t] seconds between URLs")
-	dorkerCmd.Flags().StringArrayP("engines", "e", []string{"all"}, "Engines to drok through")
+	dorkerCmd.Flags().StringSliceP("engines", "e", []string{"all"}, "Engines to drok through")
 	dorkerCmd.Flags().BoolP("listEngines", "l", false, "List the avaliable engines")
 	dorkerCmd.Flags().BoolP("save", "s", false, "Save the downloaded files to disk")
 	// dorkerCmd.MarkFlagRequired("term") // This will be checked in the command itself
