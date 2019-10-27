@@ -32,6 +32,9 @@ after_success:
   - >
     if [ "$TRAVIS_BRANCH" = "master" ]; then
       docker run --rm -it -v ${PWD}/docs:/docs squidfunk/mkdocs-material build
+    else
+      # Building documentation in any case, atleast for now
+      docker run --rm -it -v ${PWD}/docs:/docs squidfunk/mkdocs-material build
     fi
   - >
     if [[ "$TRAVIS_BRANCH" != "master" ]]; then
