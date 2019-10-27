@@ -12,7 +12,7 @@ These documents are searched for using search engines such as:
 * Bing
 * DuckDuckGo
 
-Then downloads the documents and extracts the EXIF information from graphic files, and a complete analysis of the information discovered through the URL is conducted even before downloading the file.
+Then downloads the documents and extracts the metadata information from graphic files, and a complete analysis of the information discovered through the URL is conducted even before downloading the file.
 
 GOCA (**G**et **O**rganizations with **C**ollected **A**rchives) is used mainly to find metadata and hidden information in documents found in open sources. Those documents are mainly on web pages, and they ara downloaded and analyzed with Goca.
 

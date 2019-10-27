@@ -1,5 +1,12 @@
+services:
+  - docker
+
 env:
-  - GO111MODULE=on
+  global:
+    - GO111MODULE=on
+    - REPO=gocaio/goca
+    - TAG=$TRAVIS_TAG
+    - COMMIT=${TRAVIS_COMMIT::8}
 
 language: go
 go:
@@ -21,8 +28,27 @@ script:
   - if [ "$TRAVIS_BRANCH" = "master" ]; then fossa analyze; fi
 
 after_success:
-  - ./scripts/deploy_to_docker.sh
   - if [ "$TRAVIS_BRANCH" = "master" ]; then fossa test; fi
+  - >
+    if [ "$TRAVIS_BRANCH" = "master" ]; then
+      docker run --rm -it -v ${PWD}/docs:/docs squidfunk/mkdocs-material build
+    fi
+  - >
+    if [[ "$TRAVIS_BRANCH" != "master" ]]; then
+      echo "We're not on the master branch."
+      exit 0
+    fi
+
+    if [[ "$TRAVIS_TAG" == "" ]]; then
+      echo "We're not in a release."
+      exit 0
+    fi
+
+    docker login -e $DOCKER_EMAIL -u gocaio -p $DOCKER_PASS
+    docker build -f Dockerfile -t $REPO:$COMMIT .
+    docker tag $REPO:$COMMIT $REPO:latest
+    docker tag $REPO:$COMMIT $REPO:$TAG
+    docker push $REPO
 
 before_deploy:
   - ./build.sh
@@ -36,6 +62,14 @@ deploy:
   overwrite: true
   on:
     tags: true
+  
+  provider: pages
+  local_dir: ${PWD}/docs/site
+  skip_cleanup: true
+  github_token: $GH_KEY
+  keep_history: true
+  on:
+    branch: master
 
 notifications:
   webhooks: 
