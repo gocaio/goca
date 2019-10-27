@@ -54,7 +54,7 @@ func dorkerCmdFunc(cmd *cobra.Command, args []string) {
 	// Initializing pluginHub with selected plugins
 	plugins := viper.GetStringSlice("global.plugins")
 	if len(plugins) == 0 || (len(plugins) == 1 && plugins[0] == "false") {
-		plugins, err = cmd.Flags().GetStringArray("plugins")
+		plugins, err = cmd.Flags().GetStringSlice("plugins")
 		logFatal(err)
 	}
 
