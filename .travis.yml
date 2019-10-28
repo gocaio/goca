@@ -66,6 +66,8 @@ deploy:
   skip_cleanup: true
   github_token: $GH_KEY
   keep_history: true
+  on:
+    all_branches: true
 
 # notifications:
 #   webhooks: 
