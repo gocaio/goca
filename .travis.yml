@@ -32,9 +32,6 @@ script:
 after_success:
   - if [ "$TRAVIS_BRANCH" = "master" ]; then fossa test; fi
   - >
-    curl -sfL https://raw.githubusercontent.com/containous/structor/master/godownloader.sh | bash -s -- -b "${GOPATH}/bin" $STRUCTOR_VERSION
-    structor -o Gocaio -r goca --dockerfile-url="https://raw.githubusercontent.com/gocaio/goca/dev/docs.Dockerfile" --menu.js-url="https://raw.githubusercontent.com/gocaio/goca/dev/docs/goca-menu.js.gotmpl" --exclude="$OLD_BRANCHES" --force-edit-url --exp-branch=dev --debug;
-  - >
     if [[ "$TRAVIS_BRANCH" != "master" ]]; then
       echo "We're not on the master branch."
       exit 0
@@ -53,6 +50,9 @@ after_success:
 
 before_deploy:
   - ./build.sh
+  - >
+    curl -sfL https://raw.githubusercontent.com/containous/structor/master/godownloader.sh | bash -s -- -b "${GOPATH}/bin" $STRUCTOR_VERSION
+    structor -o Gocaio -r goca --dockerfile-url="https://raw.githubusercontent.com/gocaio/goca/dev/docs/docs.Dockerfile" --menu.js-url="https://raw.githubusercontent.com/gocaio/goca/dev/docs/goca-menu.js.gotmpl" --exclude="$OLD_BRANCHES" --force-edit-url --exp-branch=dev --debug;
 
 deploy:
   provider: releases
