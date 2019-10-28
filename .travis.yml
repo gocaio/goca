@@ -1,6 +1,9 @@
 services:
   - docker
 
+git:
+  depth: false
+
 env:
   global:
     - GO111MODULE=on
@@ -27,25 +30,18 @@ before_script:
 script:
   - make test
   - >
-   if [[ "$TRAVIS_BRANCH" == "master" ]]; then 
     fossa init; 
     fossa analyze;
-   fi
 
 after_success:
-  - > 
-    if [[ "$TRAVIS_BRANCH" == "master" ]]; then 
-      fossa test
-    fi
   - >
-    if [[ "$TRAVIS_BRANCH" == "master" ]]; then
-      if [[ "$TRAVIS_TAG" != "" ]]; then
-        docker login -e $DOCKER_EMAIL -u gocaio -p $DOCKER_PASS
-        docker build -f Dockerfile -t $REPO:$COMMIT .
-        docker tag $REPO:$COMMIT $REPO:latest
-        docker tag $REPO:$COMMIT $REPO:$TAG
-        docker push $REPO
-      fi
+    fossa test;
+    if [[ "$TRAVIS_TAG" != "" ]]; then
+      docker login -e $DOCKER_EMAIL -u gocaio -p $DOCKER_PASS
+      docker build -f Dockerfile -t $REPO:$COMMIT .
+      docker tag $REPO:$COMMIT $REPO:latest
+      docker tag $REPO:$COMMIT $REPO:$TAG
+      docker push $REPO
     fi
 
 before_deploy:
@@ -71,9 +67,9 @@ deploy:
   github_token: $GH_KEY
   keep_history: true
 
-notifications:
-  webhooks: 
-    urls:
-      - https://tgwh.goca.io/travisci
-    on_success: always
-    on_failure: always
+# notifications:
+#   webhooks: 
+#     urls:
+#       - https://tgwh.goca.io/travisci
+#     on_success: always
+#     on_failure: always
