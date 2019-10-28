@@ -62,8 +62,8 @@ deploy:
   skip_cleanup: true
   overwrite: true
   on:
-    tags: true
     branch: master
+    # tags: true
   
   provider: pages
   local_dir: site
