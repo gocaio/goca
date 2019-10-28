@@ -83,7 +83,7 @@ func main() {
 		}
 	}
 
-	logInfo(fmt.Sprintf("Using %s as configuration file", viper.ConfigFileUsed()))
+	logDebug(fmt.Sprintf("Using %s as configuration file", viper.ConfigFileUsed()))
 
 	// The root command shows the help and the banner
 	rootCmd.AddCommand(versionCmd)
