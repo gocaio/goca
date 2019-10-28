@@ -21,6 +21,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"runtime"
 
 	"github.com/spf13/cobra"
 )
@@ -49,6 +50,7 @@ var versionCmd = &cobra.Command{
 			if BuildHash != "" && BuildTime != "" {
 				fmt.Printf("Build timestamp: %s\nCommit: %s\n", BuildTime, BuildHash)
 			}
+			fmt.Printf("Go version: %s\nGo compiler: %s\nPlatform: %s/%s", runtime.Version(), runtime.Compiler, runtime.GOOS, runtime.GOARCH)
 		} else {
 			fmt.Println("Goca v0.0.0 -- Dev build")
 		}
