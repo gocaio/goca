@@ -1,6 +1,5 @@
 var versions = [
   {path: "dev", text: "Experimental", selected: true },
-  {path: "v0.2.1", text: "v0.2.1 (RC)", selected: false },
 ];
 
 // Material theme
