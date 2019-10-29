@@ -19,18 +19,10 @@ language: go
 go:
   - "1.x"
 
-#before_script:
-#  - "curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/master/install.sh | sudo bash"
-
 script:
   - make test
 
 after_success:
-#  - >
-#    fossa init; 
-#    fossa analyze;
-#    fossa test;
-    
   - >
     if [[ "$TRAVIS_TAG" != "" ]]; then
       docker login -e $DOCKER_EMAIL -u gocaio -p $DOCKER_PASS
@@ -44,7 +36,7 @@ before_deploy:
   - >
     curl -sfL https://raw.githubusercontent.com/containous/structor/master/godownloader.sh | bash -s -- -b "${GOPATH}/bin" $STRUCTOR_VERSION;
     structor -o Gocaio -r goca --dockerfile-url="https://raw.githubusercontent.com/gocaio/goca/dev/docs/docs.Dockerfile" --menu.js-url="https://raw.githubusercontent.com/gocaio/goca/dev/docs/goca-menu.js.gotmpl" --exclude="$OLD_BRANCHES" --force-edit-url --exp-branch=dev --debug;
-  # - ./build.sh
+  - ./build.sh
 
 deploy:
   provider: releases
@@ -54,8 +46,7 @@ deploy:
   skip_cleanup: true
   overwrite: true
   on:
-    branch: master
-    # tags: true
+    tags: true
   
   provider: pages
   local_dir: site
@@ -65,9 +56,9 @@ deploy:
   on:
     all_branches: true
 
-# notifications:
-#   webhooks: 
-#     urls:
-#       - https://tgwh.goca.io/travisci
-#     on_success: always
-#     on_failure: always
+notifications:
+  webhooks: 
+    urls:
+      - https://tgwh.goca.io/travisci
+    on_success: always
+    on_failure: always
