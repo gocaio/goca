@@ -37,7 +37,7 @@ extra:
 copyright: "Copyright &copy; 2019 Goca"
 
 extra_css:
-  - assets/styles/extra.css
+  - assets/css/extra.css
 
 plugins:
   - search
