@@ -82,7 +82,7 @@ function addMenu(elt, versions){
 
   const select = document.createElement('select');
   select.classList.add('md-nav__link');
-  select.style.cssText = 'background: white;border: none;color: #00BCD4;-webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;overflow: hidden;padding: 0.1em;'
+  select.style.cssText = 'background: white;border: none;color: #000;-webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;overflow: hidden;padding: 0.1em;'
   select.setAttribute('onchange', 'location = this.options[this.selectedIndex].value;');
 
   for (let i = 0; i < versions.length; i++) {
