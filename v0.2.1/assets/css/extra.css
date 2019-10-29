@@ -1,3 +1,7 @@
 header.md-header {
     background-color: #000;
 }
+
+.md-nav__link--active, .md-nav__link:active {
+    color: #ff1744;
+}
