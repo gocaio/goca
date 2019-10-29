@@ -13,7 +13,7 @@ env:
     - COMMIT=${TRAVIS_COMMIT::8}
     - OLD_BRANCHES="v0.1.0,v0.2.0"
     - STRUCTOR_VERSION=v1.10.0
-    - STRUCTOR_LATEST_TAG=${TRAVIS_TAG:v0.2.1}
+    - STRUCTOR_LATEST_TAG=${TRAVIS_TAG:-v0.2.1}
 
 language: go
 go:
