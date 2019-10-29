@@ -1,58 +1,50 @@
 services:
   - docker
 
+git:
+  depth: false
+
 env:
   global:
     - GO111MODULE=on
+    - GOPROXY=https://proxy.golang.org
     - REPO=gocaio/goca
     - TAG=$TRAVIS_TAG
     - COMMIT=${TRAVIS_COMMIT::8}
     - OLD_BRANCHES="v0.1.0,v0.2.0"
     - STRUCTOR_VERSION=v1.10.0
+    - STRUCTOR_LATEST_TAG=${TRAVIS_TAG:-v0.2.1}
 
 language: go
 go:
-  - "1.11.x"
-  - "1.12.x"
-  - "1.13.x"
-  - tip
+  - "1.x"
 
-matrix:
-  allow_failures:
-    - go: tip
-
-before_script:
-  - "curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/master/install.sh | sudo bash"
+#before_script:
+#  - "curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/master/install.sh | sudo bash"
 
 script:
   - make test
-  - >
-   if [[ "$TRAVIS_BRANCH" == "master" ]]; then 
-    fossa init; 
-    fossa analyze;
-   fi
 
 after_success:
-  - > 
-    if [[ "$TRAVIS_BRANCH" == "master" ]]; then 
-      fossa test
-    fi
+#  - >
+#    fossa init; 
+#    fossa analyze;
+#    fossa test;
+    
   - >
-    if [[ "$TRAVIS_BRANCH" == "master" ]]; then
-      if [[ "$TRAVIS_TAG" != "" ]]; then
-        docker login -e $DOCKER_EMAIL -u gocaio -p $DOCKER_PASS
-        docker build -f Dockerfile -t $REPO:$COMMIT .
-        docker tag $REPO:$COMMIT $REPO:latest
-        docker tag $REPO:$COMMIT $REPO:$TAG
-        docker push $REPO
-      fi
+    if [[ "$TRAVIS_TAG" != "" ]]; then
+      docker login -e $DOCKER_EMAIL -u gocaio -p $DOCKER_PASS
+      docker build -f Dockerfile -t $REPO:$COMMIT .
+      docker tag $REPO:$COMMIT $REPO:latest
+      docker tag $REPO:$COMMIT $REPO:$TAG
+      docker push $REPO
     fi
 
 before_deploy:
   - >
     curl -sfL https://raw.githubusercontent.com/containous/structor/master/godownloader.sh | bash -s -- -b "${GOPATH}/bin" $STRUCTOR_VERSION;
     structor -o Gocaio -r goca --dockerfile-url="https://raw.githubusercontent.com/gocaio/goca/dev/docs/docs.Dockerfile" --menu.js-url="https://raw.githubusercontent.com/gocaio/goca/dev/docs/goca-menu.js.gotmpl" --exclude="$OLD_BRANCHES" --force-edit-url --exp-branch=dev --debug;
-  - ./build.sh
+  # - ./build.sh
 
 deploy:
   provider: releases
@@ -70,10 +62,12 @@ deploy:
   skip_cleanup: true
   github_token: $GH_KEY
   keep_history: true
+  on:
+    all_branches: true
 
-notifications:
-  webhooks: 
-    urls:
-      - https://tgwh.goca.io/travisci
-    on_success: always
-    on_failure: always
+# notifications:
+#   webhooks: 
+#     urls:
+#       - https://tgwh.goca.io/travisci
+#     on_success: always
+#     on_failure: always
