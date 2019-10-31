@@ -1,3 +1,7 @@
+language: go
+go:
+  - "1.x"
+
 services:
   - docker
 
@@ -13,11 +17,7 @@ env:
     - COMMIT=${TRAVIS_COMMIT::8}
     - OLD_BRANCHES="v0.1.0,v0.2.0"
     - STRUCTOR_VERSION=v1.10.0
-    - STRUCTOR_LATEST_TAG=${TRAVIS_TAG:-v0.2.1}
-
-language: go
-go:
-  - "1.x"
+    - STRUCTOR_LATEST_TAG=TRAVIS_TAG
 
 script:
   - make test
@@ -34,9 +34,11 @@ after_success:
 
 before_deploy:
   - >
-    curl -sfL https://raw.githubusercontent.com/containous/structor/master/godownloader.sh | bash -s -- -b "${GOPATH}/bin" $STRUCTOR_VERSION;
-    structor -o Gocaio -r goca --dockerfile-url="https://raw.githubusercontent.com/gocaio/goca/dev/docs/docs.Dockerfile" --menu.js-url="https://raw.githubusercontent.com/gocaio/goca/dev/docs/goca-menu.js.gotmpl" --exclude="$OLD_BRANCHES" --force-edit-url --exp-branch=dev --debug;
-  - ./build.sh
+    if [[ "$TRAVIS_TAG" != "" ]]; then
+      ./scripts/build.sh;
+      curl -sfL https://raw.githubusercontent.com/containous/structor/master/godownloader.sh | bash -s -- -b "${GOPATH}/bin" $STRUCTOR_VERSION;
+      structor -o Gocaio -r goca --dockerfile-url="https://raw.githubusercontent.com/gocaio/goca/dev/docs/docs.Dockerfile" --menu.js-url="https://raw.githubusercontent.com/gocaio/goca/dev/docs/goca-menu.js.gotmpl" --exclude="$OLD_BRANCHES" --force-edit-url --exp-branch=dev --debug;
+    fi
 
 deploy:
   provider: releases
@@ -54,7 +56,7 @@ deploy:
   github_token: $GH_KEY
   keep_history: true
   on:
-    all_branches: true
+    tags: true
 
 notifications:
   webhooks: 

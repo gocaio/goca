@@ -1,6 +1,7 @@
 # ---> Project stuff
 .cask/
 build/
+dist/
 *.db
 docs/site
 
