@@ -1,4 +1,6 @@
 [global]
+workname = "GocaProject"
+jobname = "GocaScan"
 useragent = "Goca Metadata Scanner"
 threads = 1
 loglevel = "info"

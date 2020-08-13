@@ -10,6 +10,8 @@ require (
 	github.com/gocaio/plugins/dummy v0.0.0-20191015220420-ed8dad49abe9
 	github.com/gocolly/colly v1.2.0
 	github.com/inconshreveable/mousetrap v1.0.0 // indirect
+	github.com/k0kubun/colorstring v0.0.0-20150214042306-9440f1994b88 // indirect
+	github.com/k0kubun/pp v3.0.1+incompatible
 	github.com/kennygrant/sanitize v1.2.4 // indirect
 	github.com/mattn/go-colorable v0.1.1 // indirect
 	github.com/mattn/go-isatty v0.0.7 // indirect
@@ -22,3 +24,5 @@ require (
 	github.com/temoto/robotstxt v0.0.0-20180810133444-97ee4a9ee6ea // indirect
 	google.golang.org/appengine v1.5.0 // indirect
 )
+
+go 1.13

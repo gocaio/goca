@@ -17,10 +17,12 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"path"
 
+	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
 
@@ -59,13 +61,6 @@ var (
 )
 
 func main() {
-	initializeBaseFolders()
-
-	// Generate the base goca folder depending on the OS
-	uh, err := os.UserHomeDir()
-	logFatal(err)
-	baseFolder = path.Join(uh, gocaFolder)
-
 	viper.SetConfigName("gocacfg")  // name of config file (without extension)
 	viper.AddConfigPath(baseFolder) // call multiple times to add many search paths
 	viper.AddConfigPath(".")        // optionally look for config in the working directory
@@ -92,6 +87,8 @@ func main() {
 	rootCmd.PersistentFlags().StringVarP(&baseFolder, "baseFolder", "B", baseFolder, "Goca's base folder for conf and downloads")
 	rootCmd.PersistentFlags().IntVarP(&threads, "threads", "T", threads, "The number of threads used for the file download")
 	rootCmd.PersistentFlags().StringSliceVarP(&selectedPlugins, "plugins", "P", selectedPlugins, "Plugins to run through selected command")
+	rootCmd.PersistentFlags().StringP("workName", "W", "GocaProject", "The project name used to store the analysis")
+	rootCmd.PersistentFlags().StringP("jobName", "J", "GocaScan", "The job or scan inside the project")
 
 	// Viper configuration flags for root command
 	viper.BindPFlag("global.basefolder", rootCmd.PersistentFlags().Lookup("baseFolder"))
@@ -99,10 +96,13 @@ func main() {
 	viper.BindPFlag("global.plugins", rootCmd.PersistentFlags().Lookup("plugins"))
 	viper.BindPFlag("global.threads", rootCmd.PersistentFlags().Lookup("threads"))
 	viper.BindPFlag("global.loglevel", rootCmd.PersistentFlags().Lookup("loglevel"))
+	viper.BindPFlag("global.workname", rootCmd.PersistentFlags().Lookup("workName"))
+	viper.BindPFlag("global.jobname", rootCmd.PersistentFlags().Lookup("jobName"))
 
 	// Database command and its specific flags
 	rootCmd.AddCommand(databaseCmd)
 	databaseCmd.Flags().StringVarP(&databaseFile, "file", "f", databaseFile, "Database file")
+	databaseCmd.Flags().BoolP("init", "i", false, "Initialize database")
 	// databaseCmd.MarkFlagRequired("database.file") // This will be checked in the command itself
 
 	// Viper configuration flags for database command
@@ -150,10 +150,20 @@ func main() {
 	execute()
 }
 
-func initializeBaseFolders() {
+func initializeGoca(cmd *cobra.Command, args []string) {
+	// Generate the base goca folder depending on the OS
+	uh, err := os.UserHomeDir()
+	logFatal(err)
+	baseFolder = path.Join(uh, gocaFolder)
+
 	// Ensure Goca directory is created, otherwise create it
 	if _, err := os.Stat(baseFolder); os.IsNotExist(err) {
 		os.MkdirAll(baseFolder, os.ModePerm)
 	}
 	targetFolder = path.Join(baseFolder, newULID())
+
+	// Ensure Goca databasae is created
+	if _, err := os.Stat(path.Join(baseFolder, databaseFile)); os.IsNotExist(err) {
+		logFatal(errors.New("Goca database not found, initialized first"))
+	}
 }
