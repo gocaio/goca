@@ -22,3 +22,5 @@ require (
 	github.com/temoto/robotstxt v0.0.0-20180810133444-97ee4a9ee6ea // indirect
 	google.golang.org/appengine v1.5.0 // indirect
 )
+
+go 1.13

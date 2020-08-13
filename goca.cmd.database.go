@@ -19,11 +19,18 @@ package main
 // goca.cmd.daabase.go is the cobra command selector entrypoint for the daabase.
 
 import (
-	"fmt"
-
 	"github.com/spf13/cobra"
 )
 
 func databaseCmdFunc(cmd *cobra.Command, args []string) {
-	fmt.Println("Database command entrypoint")
+	init, err := cmd.Flags().GetBool("init")
+	logFatal(err)
+	if init {
+		initializeDatabase()
+		return
+	}
+}
+
+func initializeDatabase() {
+
 }

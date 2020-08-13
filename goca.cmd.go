@@ -68,14 +68,16 @@ var scrapperCmd = &cobra.Command{
 	Use:   "scrapper",
 	Short: "This mode is used to scrap a website for documents",
 	// Long:  `All software has versions. This is Goca's`,
-	Run: scrapperCmdFunc,
+	PreRun: initializeGoca,
+	Run:    scrapperCmdFunc,
 }
 
 var dorkerCmd = &cobra.Command{
 	Use:   "dorker",
 	Short: "This mode uses multiple search engines for the metadata search",
 	// Long:  `All software has versions. This is Goca's`,
-	Run: dorkerCmdFunc,
+	PreRun: initializeGoca,
+	Run:    dorkerCmdFunc,
 }
 
 var pluginCmd = &cobra.Command{
